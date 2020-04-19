@@ -8,15 +8,17 @@ import 'info_item.dart';
 class InfoBasic extends StatelessWidget {
   const InfoBasic({
     Key key,
-    @required this.data,
+    @required this.data, this.isPatient=false,
   });
   final data;
+  final bool isPatient;
   @override
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        
         InfoRow(
             leftTitle: data.email,
             leftSubtitle: 'Email',
@@ -29,17 +31,18 @@ class InfoBasic extends StatelessWidget {
             leftTitle: data.user.identidication_number,
             leftSubtitle: 'Identification Number',
             leftIcon: 'assets/icons/38.png',
-            rightTitle: data.job.job_name,
+            rightTitle: isPatient ? data.job:data.job.job_name,
             rightSubtitle: 'Job Title',
             rightIcon: 'assets/icons/16.png'),
         SizedBox(height: screenSize.screenHight(15.0),),
         InfoRow(
-            leftTitle: data.date_of_birth,
+            leftTitle: data.date_of_birth.toString(),
             leftSubtitle: 'Date Of Birth',
             leftIcon: 'assets/icons/13.png',
-            rightTitle: data.date_of_hiring == null ? '':data.date_of_hiring ,
-            rightSubtitle: 'Date Of Hiring',
-            rightIcon: 'assets/icons/13.png'),
+            rightTitle: isPatient?data.date_of_file == null ? '':data.date_of_file.toString():data.date_of_hiring == null ? '':data.date_of_hiring.toString() ,
+            rightSubtitle: isPatient? 'Date Of File':'Date Of Hiring',
+            rightIcon: 'assets/icons/13.png'
+        ),
         SizedBox(height: screenSize.screenHight(15.0),),
         InfoRow(
             leftTitle: data.gender.gender_name,

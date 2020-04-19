@@ -1,11 +1,11 @@
 import 'package:devida/helpers/screen_helper.dart';
 import 'package:flutter/material.dart';
-import '../widgets/list_item.dart';
+
 import '../widgets/search_bar.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/data_list.dart';
 import 'package:provider/provider.dart';
-import 'package:devida/blocs/providers/doctor_provider.dart';
+
 
 import 'add_person.dart';
 
@@ -16,6 +16,7 @@ import 'package:devida/blocs/providers/doctors_provider.dart';
 import 'doctor_screen.dart';
 
 class DoctorsScreen extends StatelessWidget {
+  static const routName = '/doctors';
   String title = 'Doctors';
   String subTitle = 'doctor';
   Function onBack;
@@ -39,8 +40,7 @@ class DoctorsScreen extends StatelessWidget {
             isAdd: true,
               title: 'Doctors',
               onBack: () {
-                Provider.of<DoctorsProvider>(context, listen: false)
-                    .fetchAndSetDoctors();
+               Navigator.of(context).pop();
               },
               onAdd: () {
                 Navigator.of(context).pushNamed(
@@ -69,6 +69,7 @@ class DoctorsScreen extends StatelessWidget {
                           onRefresh: _refreshDoctors,
                           child: Consumer<DoctorsProvider>(
                             builder: (context, doctorsData, _) => DataList(
+                              isDoctor: true,
                               data: doctorsData.doctors,
                               onTap: (value) {
                                 doctorID = value;
@@ -76,10 +77,6 @@ class DoctorsScreen extends StatelessWidget {
                                 Navigator.of(context).pushNamed(
                                     DoctorScreen.routName,
                                     arguments: doctorID);
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => DoctorScreen()),
-//              );
                               },
                             ),
                           ),

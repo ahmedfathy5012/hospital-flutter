@@ -2,18 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import '../models/doctor.dart';
-import '../models/specialization.dart';
-import '../models/job.dart';
-import '../models/gender.dart';
-import '../models/user.dart';
-import '../models/nationality.dart';
-import '../models/blood.dart';
-import '../models/diagnoses.dart';
-import '../models/doctors.dart';
-import '../models/patient_case.dart';
-import '../models/patients.dart';
-import '../models/operations.dart';
-import '../models/person_extension.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -99,7 +87,10 @@ class DoctorProvider with ChangeNotifier {
     final response = await http.post(url,headers:headers,
         body:  body
     );
-   // print('${response.statusCode}');
+    //if(json.decode(response.body).message.contains('users_identification_number_unique'))
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    print('${extractedData['messgae']}');
+
     //final extractedData = json.decode(response.body) as Map<String, dynamic>;
     //_doctor = Doctor.fromJson(extractedData['data']);
     //print(_doctor.first_name);
