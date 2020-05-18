@@ -112,7 +112,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'First Name',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter First Name',
                     initValue: personID==null?null:data.first_name,
                     onSaved: (value) {
@@ -124,7 +124,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Second Name',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Second Name',
                     initValue: personID==null?null:data.second_name,
                     onSaved: (value) {
@@ -136,7 +136,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Third Name',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Third Name',
                     initValue: personID==null?null:data.third_name,
                     onSaved: (value) {
@@ -148,7 +148,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Email Name',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Email',
                     initValue: personID==null?null:data.email,
                     onSaved: (value) {
@@ -160,7 +160,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Phone Number',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Phone Number',
                     initValue: personID==null?null:data.phone,
                     onSaved: (value) {
@@ -172,11 +172,12 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Identification Number',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Identification Number',
                     initValue: personID==null?null:data.user.identidication_number,
                     onSaved: (value) {
-                      returniIdentification_number(value.toString());
+                      data.identification_number = value.toString();
+                      //returniIdentification_number(value.toString());
                     },
                     readOnly: personID==null?false:true,
                   ),
@@ -185,7 +186,7 @@ class AddForm extends StatelessWidget {
                   ),
                   TextFieldBlock(
                     hintText: 'Address',
-                    height: screenSize.screenHight(37.0),
+                    //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Address',
                     initValue: personID==null?null:data.address,
                     onSaved: (value) {
@@ -196,6 +197,7 @@ class AddForm extends StatelessWidget {
                     height: screenSize.screenHight(10.0),
                   ),
                   ChooseBlook(
+                    dialogTitle: 'Choose Social Status',
                     title: 'Social Status',
                     data: socialStatus,
                     initialValue: personID==null?null:data.social_status,
@@ -203,12 +205,12 @@ class AddForm extends StatelessWidget {
                       data.social_status = socialStatus[value-1].title;
                     },
                   ),
-
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   ChooseBlook(
-                    title: 'nationality',
+                    dialogTitle: 'Choose Nationality',
+                    title: 'Nationality',
                     data: nationalities,
                     initialValue: personID==null?null:data.nationality.nationality_name,
                     onSaved: (value) {
@@ -218,38 +220,48 @@ class AddForm extends StatelessWidget {
                   isDoctor?
                   SizedBox(
                     height: screenSize.screenHight(10.0),
-                  ):null,
+                  )
+                      :
+                  SizedBox(height: 0.0,)
+                  ,
                   isDoctor ?
-                  ChooseBlook(title: 'Specialization',
+                  ChooseBlook(
+                    dialogTitle: 'Choose Specialization',
+                    title: 'Specialization',
                     data: specializations,
                     initialValue: personID==null?null:data.specialization.specialization_name,
                     onSaved: (value) {
                       data.specialization_id = value;
-                    },):null,
+                    },):SizedBox(height: 0.0,),
 
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   isPatient?
-                  ChooseBlook(title: 'Job Title',
+                  ChooseBlook(
+                    dialogTitle: 'Choose Job Title',
+                    title: 'Job Title',
+                    data: patientJobs,
+                    initialValue: personID==null?null:data.job,
+                    onSaved: (value) {
+                      data.job = patientJobs[value-1].title;
+                    },
+                  )
+                      :
+                  ChooseBlook(
+                    dialogTitle: 'Choose Job Title',
+                    title: 'Job Title',
                     data: jobs,
                     initialValue: personID==null?null:data.job.job_name,
                     onSaved: (value) {
                       data.job_id = value;
-                    },)
-                      :
-                  ChooseBlook(
-                    title: 'Job Title',
-                    data: socialStatus,
-                    initialValue: personID==null?null:data.social_status,
-                    onSaved: (value) {
-                      data.social_status = socialStatus[value-1].title;
-                    },
-                  ),
+                    },),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  ChooseBlook(title: 'Gender',
+                  ChooseBlook(
+                    dialogTitle: 'Choose Gender',
+                    title: 'Gender',
                     data: genders,
                     initialValue: personID==null?null:data.gender.gender_name,
                     onSaved: (value) {
@@ -260,18 +272,22 @@ class AddForm extends StatelessWidget {
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  ChooseBlook(title: 'Blood',
+                  ChooseBlook(
+                    dialogTitle: 'Choose Blood',
+                    title: 'Blood',
                     data: blood,
                     initialValue:personID==null?null: data.blood.blood_name,
                     onSaved: (value) {
                       data.blood_id = value;
                     },),
+
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   ChooseBlook(
+                    dialogTitle: 'Choose Date Of Birth',
                     isDate: true,
-                    title: 'Date Of Hiring',
+                    title: 'Date Of Birth',
                     initialValue:personID==null?null: data.date_of_birth.toString(),
                     onSaved: (value) {
                       data.date_of_birth = value;
@@ -280,6 +296,7 @@ class AddForm extends StatelessWidget {
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+
                     hintText: 'Notes',
                     height: screenSize.screenHight(37.0),
                     returnValue: null,

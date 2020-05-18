@@ -13,19 +13,16 @@ class DoctorsProvider with ChangeNotifier{
   };
 
 
-  List<Doctors> _doctors = [
-    Doctors(id: 1,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 2,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 3,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 4,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 5,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 6,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 7,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy',image: 'assets/images/3.png', specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 8,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy',image: 'assets/images/3.png', specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 9,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy',image: 'assets/images/3.png', specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 10,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy',image: 'assets/images/3.png', specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-    Doctors(id: 11,fullName: 'Ahmed Mohamed Fathy', showName: 'Ahmed Fathy', image: 'assets/images/3.png',specialization: Specialization(specialization_id: 1, specialization_name: 'Nervouse Doctor')),
-  ];
+
+  String _searchText = '';
+  void setSearchText(String text){
+    _searchText=text;
+    notifyListeners();
+  }
+  List<Doctors> searchList = [];
+
+
+  List<Doctors> _doctors = [];
 
   List<Doctors> get doctors{
     return [..._doctors];
@@ -33,15 +30,28 @@ class DoctorsProvider with ChangeNotifier{
 
   Future<Doctors> fetchAndSetDoctors() async {
     String url = 'http://192.168.153.1/hospital-api/public/api/doctors';
-    http.Response response = await http.get(url,headers:headers);
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    final List<Doctors> loadedProducts = [];
-    for (var item in extractedData['data']){
-      loadedProducts.add(
-          Doctors.fromJson(item)
-      );
+
+    if(_searchText.isNotEmpty){
+        _doctors.clear();
+        searchList.forEach((item){
+        if(item.fullName.contains(_searchText)) {
+          _doctors.add(item);
+        }
+      });
+    }else{
+      http.Response response = await http.get(url,headers:headers);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Doctors> loadedProducts = [];
+      for (var item in extractedData['data']){
+        loadedProducts.add(
+            Doctors.fromJson(item)
+        );
+      }
+
+      _doctors=loadedProducts;
+      searchList.clear();
+      searchList.addAll(loadedProducts);
     }
-    _doctors=loadedProducts;
     print(_doctors[3].fullName);
     notifyListeners();
   }

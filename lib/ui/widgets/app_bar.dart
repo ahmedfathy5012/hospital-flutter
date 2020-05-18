@@ -12,11 +12,13 @@ class DrawAppBar extends StatelessWidget {
     this.onDelete = null,
     this.onEdit = null,
     this.onSave = null,
+    this.isBack = false,
   });
 
   final bool isAdd;
   final bool isForm;
   final String title;
+  final bool isBack;
   final VoidCallback onBack;
   final VoidCallback onAdd;
   final VoidCallback onDelete;
@@ -27,6 +29,9 @@ class DrawAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
     return AppBar(
+        iconTheme: IconThemeData(
+          color: Color(0xff5CA7E0),
+        ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
       title: Text(
@@ -37,9 +42,9 @@ class DrawAppBar extends StatelessWidget {
             fontFamily: 'bahnschrift',
             fontWeight: FontWeight.w500),
       ),
-      leading: IconButton(
+      leading: isBack ? IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Color(0xff5CA7E0)),
-          onPressed: onBack),
+          onPressed: onBack):null,
       actions: isAdd
           ? <Widget>[
         IconButton(
@@ -50,7 +55,7 @@ class DrawAppBar extends StatelessWidget {
       isForm ?
       <Widget>[
         IconButton(
-            icon: Icon(Icons.trending_up, color: Color(0xff5CA7E0)),
+            icon: Icon(Icons.check, color: Color(0xff5CA7E0)),
             onPressed: onSave),
       ]
           :

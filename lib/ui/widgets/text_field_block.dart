@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:devida/helpers/screen_helper.dart';
-
+ScreenHelper screenSize;
 class TextFieldBlock extends StatelessWidget {
 
-  const TextFieldBlock({
-    @required this.hintText,
-    @required this.height,
-    @required this.returnValue,
-    @required this.onSaved,
+   TextFieldBlock({
+    this.hintText,
+    this.height=37.0,
+    this.returnValue=null,
+    this.onSaved,
     this.initValue,
-    this.readOnly=false
-
+    this.readOnly=false,
+     this.maxLines = 1,
   });
 
-  final String hintText;
-  final String returnValue;
-  final double height;
-  final Function onSaved;
-  final String initValue;
-  final bool readOnly;
+   String hintText;
+   String returnValue;
+   double height;
+   Function onSaved;
+   String initValue;
+   bool readOnly;
+   int maxLines;
+
 
   @override
   Widget build(BuildContext context) {
-    ScreenHelper screenSize = ScreenHelper(context);
+    screenSize = ScreenHelper(context);
     return Container(
       width: screenSize.screenWidth(290.0),
       height: screenSize.screenHight(height),
@@ -44,12 +46,14 @@ class TextFieldBlock extends StatelessWidget {
           padding:  EdgeInsets.only(left: 15.0),
           child:
           TextFormField(
+            maxLines: maxLines,
             readOnly: readOnly?true:false,
               style: TextStyle(
                   color: Color(0XFF1749A2),
                   fontSize: 20.0
               ),
               decoration: InputDecoration(
+
                 hintText: hintText,
                 hintStyle: TextStyle(
                     color: Color(0XFFA2A2A2),

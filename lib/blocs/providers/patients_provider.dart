@@ -11,6 +11,14 @@ class PatientsProvider with ChangeNotifier{
   };
 
 
+  String _searchText = '';
+  void setSearchText(String text){
+    _searchText=text;
+    notifyListeners();
+  }
+  List<Patients> searchList = [];
+
+
   List<Patients> _patients = [];
 
   List<Patients> get patients{
@@ -19,15 +27,27 @@ class PatientsProvider with ChangeNotifier{
 
   Future<Patients> fetchAndSetPatients() async {
     String url = 'http://192.168.153.1/hospital-api/public/api/patients';
-    http.Response response = await http.get(url,headers:headers);
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    final List<Patients> loadedProducts = [];
-    for (var item in extractedData['data']){
-      loadedProducts.add(
-          Patients.fromJson(item)
-      );
+    if(_searchText.isNotEmpty){
+      _patients.clear();
+      searchList.forEach((item){
+        if(item.fullName.contains(_searchText)) {
+          _patients.add(item);
+        }
+      });
+    }else{
+      http.Response response = await http.get(url,headers:headers);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Patients> loadedProducts = [];
+      for (var item in extractedData['data']){
+        loadedProducts.add(
+            Patients.fromJson(item)
+        );
+      }
+      _patients=loadedProducts;
+      searchList.clear();
+      searchList.addAll(loadedProducts);
     }
-    _patients=loadedProducts;
+
     print(_patients[3].fullName);
     notifyListeners();
   }

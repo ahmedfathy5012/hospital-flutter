@@ -29,6 +29,7 @@ class ListItem extends StatelessWidget {
               title: Text(title,style: TextStyle(fontSize: 25.0,color: Color(0xff1749A2),fontWeight: FontWeight.w600,fontFamily: 'bahnschrift'),),
               subtitle: Text(subTitle,style: TextStyle(fontSize: 18.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w500,fontFamily: 'bahnschrift'),),
             ),
+
           ],
         ),
         elevation: 5.0,

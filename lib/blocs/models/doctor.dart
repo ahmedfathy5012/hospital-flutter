@@ -37,7 +37,8 @@ class Doctor{
   Nationality nationality;
   Specialization specialization;
   List<PersonExtension> diagnoses;
-  List<PersonExtension> operations;
+  List<PersonExtension> surgery;
+  String identification_number;
 
   Doctor({
     this.id,
@@ -66,7 +67,8 @@ class Doctor{
     this.specialization,
     this.full_name,
     this.diagnoses,
-    this.operations
+    this.surgery,
+    this.identification_number
 });
 
   Doctor.fromJson(Map<String,dynamic> jsonObject){
@@ -99,6 +101,10 @@ class Doctor{
     if(jsonObject['doctor_diagnoses'] != null){
       _setDiagnose(jsonObject['doctor_diagnoses']);
     }else{}
+    this.surgery=[];
+//    if(jsonObject['doctor_surgery'] != null){
+//      _setSurgery(jsonObject['doctor_surgery']);
+//    }else{}
 
   }
 
@@ -111,7 +117,16 @@ class Doctor{
         }
       }
     }
+  }
 
+  void _setSurgery(List<dynamic> reviewsJson){
+    if(reviewsJson.length>0){
+      for(var item in reviewsJson){
+        if(item != null){
+          surgery.add(PersonExtension.fromJson(item));
+        }
+      }
+    }
   }
 }
 

@@ -1,9 +1,12 @@
 import 'package:devida/helpers/screen_helper.dart';
+import 'package:devida/helpers/screen_arguments.dart';
+
 import 'package:flutter/material.dart';
 
 import '../widgets/search_bar.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/data_list.dart';
+import '../widgets/draw_drawer.dart';
 import 'package:provider/provider.dart';
 
 
@@ -15,22 +18,24 @@ import 'package:devida/blocs/providers/doctors_provider.dart';
 
 import 'doctor_screen.dart';
 
+
+
 class DoctorsScreen extends StatelessWidget {
   static const routName = '/doctors';
-  String title = 'Doctors';
-  String subTitle = 'doctor';
-  Function onBack;
-  Function onAdd;
   int doctorID;
-
+  List<Doctors> data;
   @override
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
-    List<Doctors> data =
-        Provider.of<DoctorsProvider>(context, listen: false).doctors;
+
     Future<void> _refreshDoctors() async {
       await Provider.of<DoctorsProvider>(context, listen: false)
           .fetchAndSetDoctors();
+    }
+    void filterSearchResults(text){
+      Provider.of<DoctorsProvider>(context, listen: false)
+          .setSearchText(text);
+      _refreshDoctors();
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,48 +48,57 @@ class DoctorsScreen extends StatelessWidget {
                Navigator.of(context).pop();
               },
               onAdd: () {
-                Navigator.of(context).pushNamed(
-                    AddPerson.routName,
-                    arguments: null);
+               screenSize.navigateNamed(routName: AddPerson.routName , arguments: ScreenArguments(
+                 doctor_id: null,
+               ));
               })),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: screenSize.screenHight(13.0),
-            ),
-            SearchBar(),
-            SizedBox(
-              height: screenSize.screenHight(20.0),
-            ),
-            FutureBuilder(
-              future: _refreshDoctors(),
-              builder: (context, snapshot) =>
-                  snapshot.connectionState == ConnectionState.waiting
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : RefreshIndicator(
-                          onRefresh: _refreshDoctors,
-                          child: Consumer<DoctorsProvider>(
-                            builder: (context, doctorsData, _) => DataList(
-                              isDoctor: true,
-                              data: doctorsData.doctors,
-                              onTap: (value) {
-                                doctorID = value;
-                                print(doctorID);
-                                Navigator.of(context).pushNamed(
-                                    DoctorScreen.routName,
-                                    arguments: doctorID);
-                              },
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: screenSize.screenHight(13.0),
+              ),
+              SearchBar(
+                onChanged: (text){
+                  filterSearchResults(text);
+                },
+              ),
+              SizedBox(
+                height: screenSize.screenHight(20.0),
+              ),
+              FutureBuilder(
+                future: _refreshDoctors(),
+                builder: (context, snapshot) =>
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: _refreshDoctors,
+                            child: Consumer<DoctorsProvider>(
+                              builder: (context,doctorsData,_)=> DataList(
+                                  isDoctor: true,
+                                  data: doctorsData.doctors,
+                                  onTap: (value) {
+                                    doctorID = value;
+                                    print(doctorID);
+                                    Navigator.of(context).pushNamed(
+                                        DoctorScreen.routName,
+                                        arguments: doctorID);
+                                  },
+                                ),
                             ),
                           ),
-                        ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
+      drawer:DrawDrawer(),
     );
   }
+
+
 }

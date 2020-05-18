@@ -8,10 +8,13 @@ import '../widgets/info_basic.dart';
 import '../widgets/info_container.dart';
 
 import 'add_person.dart';
+import 'diagnose_screen.dart';
+import 'surgery_screen.dart';
 
 import 'package:devida/blocs/models/doctor.dart';
 import 'package:devida/blocs/providers/doctor_provider.dart';
 import 'package:devida/helpers/screen_helper.dart';
+import 'package:devida/helpers/screen_arguments.dart';
 
 class DoctorScreen extends StatelessWidget {
   static const routName = '/doctor';
@@ -35,9 +38,9 @@ class DoctorScreen extends StatelessWidget {
             title: 'Doctor',
             onDelete: () {},
             onEdit: () {
-              Navigator.of(context).pushNamed(
-                  AddPerson.routName,
-                  arguments: doctorID);
+              screenSize.navigateNamed(routName: AddPerson.routName , arguments: ScreenArguments(
+                doctor_id: doctorID,
+              ));
             },
             onBack: (){
               Navigator.of(context).pop();
@@ -78,7 +81,7 @@ class DoctorScreen extends StatelessWidget {
                       children: <Widget>[
                         InfoBasic(data: doctorData.doctor),
                         SizedBox(
-                          height: screenSize.screenHight(15.0),
+                          height: screenSize.screenHight(30.0),
                         ),
                         InfoContainer(
                           icon: 'assets/icons/19.png',
@@ -87,21 +90,25 @@ class DoctorScreen extends StatelessWidget {
                           notes: doctorData.doctor.notes,
                         ),
                         InfoContainer(
-                          icon: 'assets/icons/19.png',
+                          icon: 'assets/icons/24.png',
                           subtitle: 'Dignoses',
                           data: doctorData.doctor.diagnoses,
-                          onTap: (){
-                            print('ahmed');
+                          onTap: (diagnoseID){
+                            Navigator.of(context).pushNamed(
+                                DiagnoseScreen.routName,
+                                arguments: diagnoseID);
                           },
                         ),
-                        InfoContainer(
-                          icon: 'assets/icons/19.png',
-                          subtitle: 'Surgery',
-                          data: doctorData.doctor.diagnoses,
-                          onTap: (){
-                            print('ahmed Fathy');
-                          },
-                        ),
+//                        InfoContainer(
+//                          icon: 'assets/icons/27.png',
+//                          subtitle: 'Surgery',
+//                          data: doctorData.doctor.surgery,
+//                          onTap: (surgeryID){
+//                            Navigator.of(context).pushNamed(
+//                                SurgeryScreen.routName,
+//                                arguments: surgeryID);
+//                          },
+//                        ),
                       ],
                     ),
                   ),

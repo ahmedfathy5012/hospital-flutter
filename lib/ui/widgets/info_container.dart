@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class InfoContainer extends StatefulWidget {
   const InfoContainer({
-    @required this.icon,@required this.subtitle,this.data=null,this.notes=null,this.isNote=false,this.onTap
+    @required this.icon,@required this.subtitle,this.data=null,this.notes=null,this.isNote=false,this.onTap, this.isCase=false
   }) ;
 
   final String icon;
@@ -11,6 +11,7 @@ class InfoContainer extends StatefulWidget {
   final List data;
   final String notes;
   final bool isNote;
+  final bool isCase;
   final Function onTap;
 
   @override
@@ -86,7 +87,7 @@ class _InfoContainerState extends State<InfoContainer> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text('Notes',style: TextStyle(fontSize: 7.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w600,fontFamily: 'bahnschrift'),),
+                          Text(widget.subtitle,style: TextStyle(fontSize: 7.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w600,fontFamily: 'bahnschrift'),),
 
                           Icon(
                               Icons.arrow_drop_down,
@@ -106,7 +107,7 @@ class _InfoContainerState extends State<InfoContainer> {
     );
   }
 
-  Widget filledContainer({ScreenHelper screensize , Function onTap}){
+  Widget filledContainer({ScreenHelper screensize}){
     if(cardExpand){
       if(widget.isNote){
         if(widget.notes==null){
@@ -119,45 +120,54 @@ class _InfoContainerState extends State<InfoContainer> {
           return Text('there is no data');
         }else{
           return ListView.builder(
-              itemCount: widget.data.length,
-              itemBuilder: (context,index)=>Column(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: onTap,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: screensize.screenWidth(13.0),
-                          width: screensize.screenWidth(13.0),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.all(Radius.circular(screensize.screenWidth(7.5))),
-                            border: Border.all(color: Color(0xff1749A2),width: 1.0),
-                          ),
-                          child: Center(child: Text(index.toString(),style: TextStyle(fontSize: 10.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),)),
+            itemCount: widget.data.length,
+            itemBuilder: (context,index)=>Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                    widget.onTap(widget.data[index].id);
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: screensize.screenWidth(13.0),
+                        width: screensize.screenWidth(13.0),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.all(Radius.circular(screensize.screenWidth(7.5))),
+                          border: Border.all(color: Color(0xff1749A2),width: 1.0),
                         ),
-                        SizedBox(width: screensize.screenWidth(4.0),),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(widget.data[index].name,style: TextStyle(fontSize: 11.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),),
-                            SizedBox(height: screensize.screenWidth(2.0),),
-                            Container(
-                              color: Colors.transparent,
-                              height: screensize.screenWidth(20.0),
-                              width: screensize.screenWidth(240.0),
-                              child: Text(widget.data[index].content,
-                                style: TextStyle(fontSize: 6.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                        child: Center(child: Text(index.toString(),style: TextStyle(fontSize: 10.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),)),
+                      ),
+                      SizedBox(width: screensize.screenWidth(4.0),),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          widget.isCase?
+                      Text('Entry Date Is ${widget.data[index].entry_date}',style: TextStyle(fontSize: 11.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),)
+                              :
+                      Text(widget.data[index].name,style: TextStyle(fontSize: 11.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),),
+
+                          SizedBox(height: screensize.screenWidth(2.0),),
+                          widget.isCase?
+                          Text('Number Of Diagnoses Is ${widget.data[index].diagnoses.length}',style: TextStyle(fontSize: 11.0,color: Color(0xff1749A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),)
+                              :
+                          Container(
+                            color: Colors.transparent,
+                            height: screensize.screenWidth(20.0),
+                            width: screensize.screenWidth(240.0),
+                            child: Text(widget.data[index].content,
+                              style: TextStyle(fontSize: 6.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w800,fontFamily: 'bahnschrift'),),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  SizedBox(height: screensize.screenHight(3.0),)
-                ],
-              ),
+                ),
+                SizedBox(height: screensize.screenHight(3.0),)
+              ],
+            ),
           );
         }
       }

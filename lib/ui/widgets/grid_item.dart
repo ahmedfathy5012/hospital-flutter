@@ -12,10 +12,13 @@ class GridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
     return GestureDetector(
-      child: Material(
+      child: Card(
         color: Colors.white,
         elevation: 5,
-borderRadius: BorderRadius.circular(21.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(21.0),
+        ),
+        //borderRadius: BorderRadius.circular(21.0),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

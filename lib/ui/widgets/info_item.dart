@@ -24,9 +24,19 @@ class InfoItem extends StatelessWidget {
       width: isAddress ? screenSize.screenWidth(300.0) : isRight?screenSize.screenWidth(135.0): screenSize.screenWidth(175.0),
 
       //isRight?screenSize.screenWidth(135.0): screenSize.screenWidth(175.0),
-      height: screenSize.screenHight(26.0),
-      color: Colors.transparent,
-      child: Row(
+//      height: screenSize.screenHight(26.0),
+//      color: Colors.transparent,
+//      child: ListTile(
+//        leading:  CircleAvatar(
+//            radius: screenSize.screenWidth(12.5),
+//            backgroundImage: AssetImage(icon),
+//            backgroundColor: Colors.transparent,
+//          ),
+//        title: Text(title,style: TextStyle(fontSize: 11.0,color: Color(0xff1749A2),fontWeight: FontWeight.w600,fontFamily: 'bahnschrift'),),
+//        subtitle: Text(subtitle,style: TextStyle(fontSize: 7.0,color: Color(0xffA2A2A2),fontWeight: FontWeight.w600,fontFamily: 'bahnschrift'),),
+//      )
+ child:
+      Row(
         children: <Widget>[
           CircleAvatar(
             radius: screenSize.screenWidth(12.5),

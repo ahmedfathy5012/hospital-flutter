@@ -9,6 +9,7 @@ import 'specialization.dart';
 import 'diagnoses.dart';
 import 'operations.dart';
 import 'person_extension.dart';
+import 'patient_case.dart';
 
 class Patient{
   int id;
@@ -33,8 +34,9 @@ class Patient{
   Blood blood;
   User user;
   Nationality nationality;
-  List<PersonExtension> diagnoses;
-  List<PersonExtension> operations;
+  List<PatientCase> patient_cases;
+  List<PersonExtension> surgery;
+  String identification_number;
 
   Patient({
     this.id,
@@ -59,8 +61,9 @@ class Patient{
     this.user,
     this.nationality,
     this.full_name,
-    this.diagnoses,
-    this.operations
+    this.patient_cases,
+    this.surgery,
+    this.identification_number
   });
 
   Patient.fromJson(Map<String,dynamic> jsonObject){
@@ -86,25 +89,39 @@ class Patient{
     this.blood=Blood.fromJson(jsonObject['patient_blood']);
     this.user=User.fromJson(jsonObject['patient_user']);
     this.nationality=Nationality.fromJson(jsonObject['patient_nationality']);
-    //this.diagnoses=[];
-//    if(jsonObject['doctor_diagnoses'] != null){
-//      _setDiagnose(jsonObject['doctor_diagnoses']);
-//    }else{}
+    this.patient_cases=[];
+    if(jsonObject['patient_case'] != null){
+      _setPatientCase(jsonObject['patient_case']);
+    }else{}
+    this.surgery=[];
+    if(jsonObject['patient_surgery'] != null){
+      _setSurgery(jsonObject['patient_surgery']);
+    }else{}
 
 
   }
 
 
-  void _setDiagnose(List<dynamic> reviewsJson){
+  void _setPatientCase(List<dynamic> reviewsJson){
     if(reviewsJson.length>0){
       for(var item in reviewsJson){
         if(item != null){
-          diagnoses.add(PersonExtension.fromJson(item));
+          patient_cases.add(PatientCase.fromJson(item));
         }
       }
     }
-
   }
+
+  void _setSurgery(List<dynamic> reviewsJson){
+    if(reviewsJson.length>0){
+      for(var item in reviewsJson){
+        if(item != null){
+          surgery.add(PersonExtension.fromJson(item));
+        }
+      }
+    }
+  }
+
 }
 
 

@@ -25,6 +25,7 @@ class DoctorProvider with ChangeNotifier {
     _doctor = Doctor.fromJson(extractedData['data']);
     print(_doctor.blood.blood_id);
     notifyListeners();
+    print(_doctor.surgery[0].content);
   }
 
   Future<Doctor> updateDoctor(int id , Doctor doctor) async {
@@ -58,10 +59,10 @@ class DoctorProvider with ChangeNotifier {
   }
 
 
-  Future<void> addDoctor(int id , Doctor doctor , String identification_number) async {
+  Future<http.Response> addDoctor(int id , Doctor doctor) async {
 
     Map<String,dynamic> body = {
-      'Identification_number' : identification_number.toString(),
+      'Identification_number' : doctor.identification_number.toString(),
       'first_name' : doctor.first_name.toString(),
       'second_name': doctor.second_name.toString(),
       'third_name' : doctor.third_name.toString(),
@@ -89,12 +90,13 @@ class DoctorProvider with ChangeNotifier {
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    print('${extractedData['messgae']}');
+    print('${extractedData}');
 
     //final extractedData = json.decode(response.body) as Map<String, dynamic>;
     //_doctor = Doctor.fromJson(extractedData['data']);
     //print(_doctor.first_name);
     notifyListeners();
+    return response;
   }
 
 
