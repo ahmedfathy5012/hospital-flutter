@@ -50,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: screenHelper.screenHight(130.0),
                 ),
                 Container(
-                  width: screenHelper.screenWidth(263.0),
-                  height: screenHelper.screenHight(104.0),
+                  width: screenHelper.screenWidth(269.0),
+                  height: screenHelper.screenHight(123.0),
                   color: Colors.transparent,
                   child: Image.asset(
                     'assets/logo/LOGO.png',
@@ -73,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: screenHelper.screenHight(20.0),
                 ),
                 TextFieldBlock(
+                  isSecure: true,
                   hintText: 'Password',
                   height: 48.0,
                   returnValue: 'Please Enter Teh Password',

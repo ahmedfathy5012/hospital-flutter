@@ -5,7 +5,9 @@ import '../models/employee.dart';
 
 import 'package:http/http.dart' as http;
 
-class EmployeeProvider with ChangeNotifier {
+import '../../helpers/api_helper.dart';
+
+class EmployeeProvider extends ApiHelper with ChangeNotifier {
 
   Map<String,String> headers = {
     'Accept': 'application/json',
@@ -18,13 +20,15 @@ class EmployeeProvider with ChangeNotifier {
     return _employee;
   }
 
-  Future<Employee> fetchAndSetEmployee(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/employee/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetEmployee(int id) async {
+    final response = await http.get(FETCH_EMPLOYEE_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _employee = Employee.fromJson(extractedData['data']);
     print(_employee.blood.blood_id);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
   Future<Employee> updateEmployee(int id , Employee employee) async {
@@ -46,8 +50,8 @@ class EmployeeProvider with ChangeNotifier {
       'date_of_birth' : employee.date_of_birth.toString(),
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-employee/$id';
-    final response = await http.post(url,headers:headers,
+
+    final response = await http.post(UPDATE_EMPLOYEE_URL(id),headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -57,10 +61,10 @@ class EmployeeProvider with ChangeNotifier {
   }
 
 
-  Future<http.Response> addEmployee(int id , Employee employee , String identification_number) async {
+  Future<http.Response> addEmployee(int id , Employee employee) async {
 
     Map<String,dynamic> body = {
-    'Identification_number' : identification_number.toString(),
+    'Identification_number' : employee.identification_number.toString(),
     'first_name' : employee.first_name.toString(),
     'second_name': employee.second_name.toString(),
     'third_name' : employee.third_name.toString(),
@@ -81,8 +85,7 @@ class EmployeeProvider with ChangeNotifier {
     };
 
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/add-employee';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(ADD_EMPLOYEE_URL,headers:await getHeaders(),
     body:  body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
@@ -95,8 +98,5 @@ class EmployeeProvider with ChangeNotifier {
     notifyListeners();
     return response;
   }
-
-
-
 
 }

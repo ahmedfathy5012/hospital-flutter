@@ -5,12 +5,9 @@ import 'dart:convert';
 
 import '../models/nurses.dart';
 
-class NursesProvider with ChangeNotifier{
-  Map<String,String> headers = {
-    'Accept': 'application/json',
-  };
+import '../../helpers/api_helper.dart';
 
-
+class NursesProvider extends ApiHelper with ChangeNotifier{
 
 
   String _searchText = '';
@@ -26,9 +23,7 @@ class NursesProvider with ChangeNotifier{
     return [..._nurses];
   }
 
-  Future<Nurses> fetchAndSetNurses() async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/nurses';
-
+  Future<bool> fetchAndSetNurses() async {
     if(_searchText.isNotEmpty){
       _nurses.clear();
       searchList.forEach((item){
@@ -36,8 +31,10 @@ class NursesProvider with ChangeNotifier{
           _nurses.add(item);
         }
       });
+      notifyListeners();
+
     }else{
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_NURSES_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Nurses> loadedProducts = [];
       for (var item in extractedData['data']){
@@ -48,9 +45,13 @@ class NursesProvider with ChangeNotifier{
       _nurses=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      print(_nurses[3].fullName);
+      notifyListeners();
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
 
-    print(_nurses[3].fullName);
-    notifyListeners();
+
   }
 }

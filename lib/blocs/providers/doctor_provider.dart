@@ -5,7 +5,9 @@ import '../models/doctor.dart';
 
 import 'package:http/http.dart' as http;
 
-class DoctorProvider with ChangeNotifier {
+import '../../helpers/api_helper.dart';
+
+class DoctorProvider extends ApiHelper with ChangeNotifier {
 
   Map<String,String> headers = {
     'Accept': 'application/json',
@@ -18,14 +20,15 @@ class DoctorProvider with ChangeNotifier {
     return _doctor;
   }
 
-  Future<Doctor> fetchAndSetDoctor(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/doctor/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetDoctor(int id) async {
+    final response = await http.get(FETCH_DOCTOR_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _doctor = Doctor.fromJson(extractedData['data']);
-    print(_doctor.blood.blood_id);
+    print('ROLE IS ${_doctor.user.user_role.toString()}');
     notifyListeners();
-    print(_doctor.surgery[0].content);
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
   Future<Doctor> updateDoctor(int id , Doctor doctor) async {
@@ -38,18 +41,18 @@ class DoctorProvider with ChangeNotifier {
       'job_id' : doctor.job_id.toString(),
       'sex_id' : doctor.gender_id.toString(),
       'blood_id' : doctor.blood_id.toString(),
-        'notes' : doctor.notes,
-        'image' : doctor.image,
+        'notes' : doctor.notes== null ? ' ' : doctor.notes,
+        'image' : doctor.image == null ? ' ' : doctor.image,
          'address' : doctor.address,
          'phone' : doctor.phone,
          'email' : doctor.email,
       'social_status': doctor.social_status,
          'date_of_hiring':doctor.date_of_hiring.toString(),
       'date_of_birth' : doctor.date_of_birth.toString(),
-    };
+      'user_role_id' : doctor.user_role_id.toString(),
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-doctor/$id';
-    final response = await http.post(url,headers:headers,
+    };
+    final response = await http.post(UPDATE_DOCTOR_URL(id),headers:await getHeaders(),
      body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -71,21 +74,20 @@ class DoctorProvider with ChangeNotifier {
       'job_id' : doctor.job_id.toString(),
       'sex_id' : doctor.gender_id.toString(),
       'blood_id' : doctor.blood_id.toString(),
-      if(doctor.notes != null)
-      'notes' : doctor.notes.toString(),
-      if(doctor.image != null)
-      'image' : doctor.image.toString(),
+      'notes' : doctor.notes== null ? ' ' : doctor.notes,
+      'image' : doctor.image == null ? ' ' : doctor.image,
       'address' : doctor.address.toString(),
       'phone' : doctor.phone.toString(),
       'email' : doctor.email.toString(),
       'social_status': doctor.social_status.toString(),
       'date_of_hiring': DateTime.now().toString(),
       'date_of_birth' : doctor.date_of_birth.toString(),
+      'user_role_id' : doctor.user_role_id.toString()
     };
 
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/add-doctor';
-    final response = await http.post(url,headers:headers,
+
+    final response = await http.post(ADD_DOCTOR_URL,headers:await getHeaders(),
         body:  body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
@@ -98,8 +100,4 @@ class DoctorProvider with ChangeNotifier {
     notifyListeners();
     return response;
   }
-
-
-
-
 }

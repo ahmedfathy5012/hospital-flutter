@@ -5,22 +5,24 @@ import 'dart:convert';
 import '../models/diagnose.dart';
 import '../models/thing_extension.dart';
 
-class DiagnoseProvider with ChangeNotifier{
-  Map<String,String> headers = {
-    'Accept': 'application/json',
-  };
+import '../../helpers/api_helper.dart';
+
+class DiagnoseProvider extends ApiHelper with ChangeNotifier{
 
   Diagnose _diagnose ;
   Diagnose get diagnose{
     return _diagnose;
   }
-  Future<void> fetchAndSetDiagnose(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/diagnose/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetDiagnose(int id) async {
+
+    final response = await http.get(FETCH_DIAGNOSE_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _diagnose = Diagnose.fromJson(extractedData['data']);
     print('my dayta is ${_diagnose.id}');
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
 
@@ -34,7 +36,7 @@ class DiagnoseProvider with ChangeNotifier{
     };
 
     String url = 'http://192.168.153.1/hospital-api/public/api/update-diagnose/$id';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(UPDATE_DIAGNOSE_URL,headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -62,12 +64,12 @@ class DiagnoseProvider with ChangeNotifier{
     };
 
     String url = isAddCase ?
-        'http://192.168.153.1/hospital-api/public/api/add-case'
+        ADD_CASE_URL
         :
-        'http://192.168.153.1/hospital-api/public/api/add-diagnose';
+        ADD_DIAGNOSE_URL;
     final response = await http.post(
         url,
-        headers:headers,
+        headers:await getHeaders(),
         body: isAddCase ? addCaseBody : body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
@@ -93,7 +95,7 @@ class DiagnoseProvider with ChangeNotifier{
     return [..._diagnoses];
   }
 
-  Future<void> fetchAndSetDiagnoses() async {
+  Future<bool> fetchAndSetDiagnoses() async {
     String url = 'http://192.168.153.1/hospital-api/public/api/diagnoses';
     print('Taam0');
     if(_searchText.isNotEmpty){
@@ -104,9 +106,10 @@ class DiagnoseProvider with ChangeNotifier{
           _diagnoses.add(item);
         }
       });
+      notifyListeners();
     }else{
       print('Taam2');
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_DIAGNOSES_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<ThingsExtension> loadedProducts = [];
       print(extractedData);
@@ -120,9 +123,13 @@ class DiagnoseProvider with ChangeNotifier{
       _diagnoses=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      notifyListeners();
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
     print('jf');
-    notifyListeners();
+
   }
 
 

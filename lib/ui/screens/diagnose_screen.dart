@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/info_item.dart';
 import '../widgets/info_container.dart';
+import '../widgets/build_future.dart';
+
 
 import 'diagnose_form_screen.dart';
 
@@ -17,8 +19,8 @@ class DiagnoseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final diagnoseID = ModalRoute.of(context).settings.arguments as int;
     ScreenHelper screenSize = ScreenHelper(context);
-    Future<void> _refreshDiagnose(int diagnoseID) async {
-      await Provider.of<DiagnoseProvider>(context, listen: false)
+    Future<bool> _refreshDiagnose(int diagnoseID) async {
+      return await Provider.of<DiagnoseProvider>(context, listen: false)
           .fetchAndSetDiagnose(diagnoseID);
     }
 
@@ -26,6 +28,7 @@ class DiagnoseScreen extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(screenSize.screenHight(50.0)),
           child: DrawAppBar(
+            isBack: true,
             title: 'Diagnose',
             onDelete: () {},
             onEdit: () {
@@ -41,89 +44,94 @@ class DiagnoseScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
           )),
-      body: FutureBuilder(
-        future: _refreshDiagnose(diagnoseID),
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : RefreshIndicator(
-                onRefresh: () => _refreshDiagnose(diagnoseID),
-                child: Consumer<DiagnoseProvider>(
-                  builder: (context, diagnoseData, _) => Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+      body: BuildFuture(
+        id: diagnoseID ,
+        fetchData: _refreshDiagnose,
+        child: Consumer<DiagnoseProvider>(
+          builder: (context, diagnoseData, _) => Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: screenSize.screenHight(8.0),
+                ),
+                Center(
+                  child: Container(
+                    height: screenSize.screenHight(174.0),
+                    width: screenSize.screenWidth(187.0),
+                    child: Image.asset(
+                      'assets/icons/36.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: screenSize.screenHight(30.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screenSize.screenWidth(25.0),
+                  ),
+                  child: Container(
+                    width: screenSize.screenWidth(350.0),
+                    height: screenSize.screenHight(299.0),
+                    child: ListView(
                       children: <Widget>[
-                        SizedBox(
-                          height: screenSize.screenHight(8.0),
-                        ),
-                        Center(
-                          child: Container(
-                            height: screenSize.screenHight(174.0),
-                            width: screenSize.screenWidth(187.0),
-                            child: Image.asset(
-                              'assets/icons/36.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenSize.screenHight(30.0),
-                        ),
                         Padding(
-                          padding: EdgeInsets.only(
-                            left: screenSize.screenWidth(25.0),
-                          ),
-                          child: Container(
-                            width: screenSize.screenWidth(350.0),
-                            height: screenSize.screenHight(299.0),
-                            child: ListView(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: screenSize.screenHight(15.0),
-                                ),
-                                InfoItem(
-                                    title: diagnoseData.diagnose.doctor_name,
-                                    subtitle: 'Doctor',
-                                    icon: 'assets/icons/29.png'
-                                ),
-                                SizedBox(height: screenSize.screenHight(15.0),),
-                                InfoItem(
-                                    title: diagnoseData.diagnose.patient_name,
-                                    subtitle: 'Patient',
-                                    icon: 'assets/icons/33.png'
-                                ),
-                                SizedBox(height: screenSize.screenHight(15.0),),
-                                InfoItem(
-                                    title: diagnoseData.diagnose.patient_name,
-                                    subtitle: 'Date',
-                                    icon: 'assets/icons/13.png'
-                                ),
-                                SizedBox(height: screenSize.screenHight(15.0),),
-                              InfoContainer(
-                                icon: 'assets/icons/24.png',
-                                subtitle: 'Diagnose',
-                                isNote: true,
-                                notes: diagnoseData.diagnose.diagnose,
+                          padding:  EdgeInsets.only(left: screenSize.screenWidth(10.0)),
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: screenSize.screenHight(15.0),
                               ),
-                                SizedBox(height: screenSize.screenHight(15.0),),
-                                InfoContainer(
-                                  icon: 'assets/icons/30.png',
-                                  subtitle: 'Drugs',
-                                  isNote: true,
-                                  notes: diagnoseData.diagnose.drugs,
-                                ),
-                              ],
-                            ),
+                              InfoItem(
+                                  title: diagnoseData.diagnose.doctor_name,
+                                  subtitle: 'Doctor',
+                                  icon: 'assets/icons/29.png'
+                              ),
+                              SizedBox(height: screenSize.screenHight(15.0),),
+                              InfoItem(
+                                  title: diagnoseData.diagnose.patient_name,
+                                  subtitle: 'Patient',
+                                  icon: 'assets/icons/33.png'
+                              ),
+                              SizedBox(height: screenSize.screenHight(15.0),),
+                              InfoItem(
+                                  title: diagnoseData.diagnose.patient_name,
+                                  subtitle: 'Date',
+                                  icon: 'assets/icons/13.png'
+                              ),
+                            ],
+                           crossAxisAlignment: CrossAxisAlignment.start,
                           ),
                         ),
+                        SizedBox(height: screenSize.screenHight(15.0),),
+                        Column(
+                          children: <Widget>[
+                            InfoContainer(
+                              icon: 'assets/icons/24.png',
+                              subtitle: 'Diagnose',
+                              isNote: true,
+                              notes: diagnoseData.diagnose.diagnose,
+                            ),
+                            SizedBox(height: screenSize.screenHight(15.0),),
+                            InfoContainer(
+                              icon: 'assets/icons/30.png',
+                              subtitle: 'Drugs',
+                              isNote: true,
+                              notes: diagnoseData.diagnose.drugs,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ),
-              ),
-      ),
+              ],
+            ),
+          ),
+        ),
+      )
     );
   }
 }

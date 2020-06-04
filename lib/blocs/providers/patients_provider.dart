@@ -4,8 +4,9 @@ import 'dart:convert';
 
 import '../models/patients.dart';
 
+import '../../helpers/api_helper.dart';
 
-class PatientsProvider with ChangeNotifier{
+class PatientsProvider extends ApiHelper with ChangeNotifier{
   Map<String,String> headers = {
     'Accept': 'application/json',
   };
@@ -25,8 +26,7 @@ class PatientsProvider with ChangeNotifier{
     return [..._patients];
   }
 
-  Future<Patients> fetchAndSetPatients() async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/patients';
+  Future<bool> fetchAndSetPatients() async {
     if(_searchText.isNotEmpty){
       _patients.clear();
       searchList.forEach((item){
@@ -34,8 +34,9 @@ class PatientsProvider with ChangeNotifier{
           _patients.add(item);
         }
       });
+      notifyListeners();
     }else{
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_PATIENTS_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Patients> loadedProducts = [];
       for (var item in extractedData['data']){
@@ -46,9 +47,13 @@ class PatientsProvider with ChangeNotifier{
       _patients=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      print(_patients[3].fullName);
+      notifyListeners();
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
 
-    print(_patients[3].fullName);
-    notifyListeners();
+
   }
 }

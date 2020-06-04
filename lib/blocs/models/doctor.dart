@@ -39,6 +39,7 @@ class Doctor{
   List<PersonExtension> diagnoses;
   List<PersonExtension> surgery;
   String identification_number;
+  int user_role_id;
 
   Doctor({
     this.id,
@@ -68,7 +69,8 @@ class Doctor{
     this.full_name,
     this.diagnoses,
     this.surgery,
-    this.identification_number
+    this.identification_number,
+    this.user_role_id,
 });
 
   Doctor.fromJson(Map<String,dynamic> jsonObject){

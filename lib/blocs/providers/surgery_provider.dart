@@ -5,8 +5,9 @@ import 'dart:convert';
 import '../models/Surgery.dart';
 import '../models/thing_extension.dart';
 
+import '../../helpers/api_helper.dart';
 
-class SurgeryProvider with ChangeNotifier{
+class SurgeryProvider extends ApiHelper with ChangeNotifier{
   Map<String,String> headers = {
     'Accept': 'application/json',
   };
@@ -15,13 +16,15 @@ class SurgeryProvider with ChangeNotifier{
   Surgery get surgery{
     return _surgery;
   }
-  Future<void> fetchAndSetSurgery(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/operation/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetSurgery(int id) async {
+    final response = await http.get(FETCH_SURGERY_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _surgery = Surgery.fromJson(extractedData['data']);
     print(_surgery.id);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
 
@@ -35,8 +38,7 @@ class SurgeryProvider with ChangeNotifier{
       'date_of_surgery' : surgery.date_of_surgery,
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-operation/$id';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(UPDATE_SURGERY_URL(id),headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -57,8 +59,8 @@ class SurgeryProvider with ChangeNotifier{
     };
 
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/add-operation';
-    final response = await http.post(url,headers:headers,
+
+    final response = await http.post(ADD_SURGERY_URL,headers:await getHeaders(),
     body:  body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
@@ -86,8 +88,7 @@ class SurgeryProvider with ChangeNotifier{
     return [..._surgeries];
   }
 
-  Future<void> fetchAndSetSurgeries() async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/operations';
+  Future<bool> fetchAndSetSurgeries() async {
 
     if(_searchText.isNotEmpty){
       _surgeries.clear();
@@ -96,8 +97,10 @@ class SurgeryProvider with ChangeNotifier{
           _surgeries.add(item);
         }
       });
+      notifyListeners();
+
     }else{
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_SURERIES_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<ThingsExtension> loadedProducts = [];
       for (var item in extractedData['data']){
@@ -109,9 +112,13 @@ class SurgeryProvider with ChangeNotifier{
       _surgeries=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      notifyListeners();
+
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
 
-    notifyListeners();
   }
 
 }

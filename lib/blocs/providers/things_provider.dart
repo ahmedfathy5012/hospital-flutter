@@ -28,7 +28,7 @@ class DoctorsProvider with ChangeNotifier{
     return [..._diagnoses];
   }
 
-  Future<void> fetchAndSetDiagnoses() async {
+  Future<bool> fetchAndSetDiagnoses() async {
     String url = 'http://192.168.153.1/hospital-api/public/api/doctors';
 
     if(_searchText.isNotEmpty){
@@ -38,6 +38,8 @@ class DoctorsProvider with ChangeNotifier{
           _diagnoses.add(item);
         }
       });
+
+      notifyListeners();
     }else{
       http.Response response = await http.get(url,headers:headers);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -51,8 +53,10 @@ class DoctorsProvider with ChangeNotifier{
       _diagnoses=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      notifyListeners();
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
-
-    notifyListeners();
   }
 }

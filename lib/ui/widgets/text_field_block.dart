@@ -12,6 +12,7 @@ class TextFieldBlock extends StatelessWidget {
     this.initValue,
     this.readOnly=false,
      this.maxLines = 1,
+     this.isSecure=false
   });
 
    String hintText;
@@ -21,6 +22,7 @@ class TextFieldBlock extends StatelessWidget {
    String initValue;
    bool readOnly;
    int maxLines;
+   bool isSecure;
 
 
   @override
@@ -63,6 +65,7 @@ class TextFieldBlock extends StatelessWidget {
                   border: InputBorder.none
                   
               ),
+              obscureText: isSecure,
               initialValue: initValue == '' ? null : initValue ,
               validator: (value){
                 if(value.isEmpty){

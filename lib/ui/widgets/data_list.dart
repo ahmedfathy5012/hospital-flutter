@@ -31,7 +31,7 @@ class DataList extends StatelessWidget {
           onTap: onTap,
           title: isExtension ? data[index].patient_name:data[index].showName,
           subTitle: returnSubTitle(index),
-          image: 'assets/images/3.png',
+          image: data[index].gender.toString() == 'Male' ? 'assets/images/4.png' : 'assets/images/3.png',
           //image: data[index].image,
           doctorId: data[index].id,
         ),

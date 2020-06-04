@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class DrawAppBar extends StatelessWidget {
   DrawAppBar({
-    @required this.title,
+    this.title=' ',
     this.isAdd = false,
     this.isForm = false,
     this.onBack = null,
@@ -13,6 +13,7 @@ class DrawAppBar extends StatelessWidget {
     this.onEdit = null,
     this.onSave = null,
     this.isBack = false,
+    this.isHome = false,
   });
 
   final bool isAdd;
@@ -24,6 +25,7 @@ class DrawAppBar extends StatelessWidget {
   final VoidCallback onDelete;
   final VoidCallback onEdit;
   final VoidCallback onSave;
+  final bool isHome;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,14 @@ class DrawAppBar extends StatelessWidget {
         ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
-      title: Text(
+      centerTitle: isHome ,
+      title: isHome?
+      Image.asset(
+        'assets/logo/LOGO-BAR.png',
+        scale: 2,
+      )
+      :
+      Text(
         title,
         style: TextStyle(
             color: Color(0xff5CA7E0),
@@ -42,30 +51,67 @@ class DrawAppBar extends StatelessWidget {
             fontFamily: 'bahnschrift',
             fontWeight: FontWeight.w500),
       ),
-      leading: isBack ? IconButton(
+      leading: isBack ?
+      IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Color(0xff5CA7E0)),
-          onPressed: onBack):null,
-      actions: isAdd
+          onPressed: onBack)
+            :Padding(
+        padding: EdgeInsets.only(left: screenSize.screenWidth(10)),
+        child: GestureDetector(
+          onTap: (){
+            Scaffold.of(context).openDrawer();
+          },
+          child: Image.asset('assets/icons/11.png',scale: 4,),
+        ),
+      ),
+      actions: isHome?
+      null:
+      isAdd
           ? <Widget>[
-        IconButton(
-            icon: Icon(Icons.add, color: Color(0xff5CA7E0)),
-            onPressed: onAdd)
+        Padding(
+          padding: EdgeInsets.only(right: screenSize.screenWidth(10)),
+          child: GestureDetector(
+            onTap: onAdd,
+            child: ImageIcon(
+              AssetImage('assets/icons/6.png'),
+            ),
+          ),
+        ),
       ]
       :
       isForm ?
       <Widget>[
-        IconButton(
-            icon: Icon(Icons.check, color: Color(0xff5CA7E0)),
-            onPressed: onSave),
+        
+        Padding(
+          padding: EdgeInsets.only(right: screenSize.screenWidth(10)),
+          child: GestureDetector(
+            onTap: onSave,
+            child: ImageIcon(
+              AssetImage('assets/icons/26.png'),
+            ),
+          ),
+        )
       ]
           :
       <Widget>[
-        IconButton(
-            icon: Icon(Icons.edit, color: Color(0xff5CA7E0)),
-            onPressed: onEdit),
-        IconButton(
-            icon: Icon(Icons.delete, color: Color(0xff5CA7E0)),
-            onPressed: onDelete),
+        Padding(
+          padding: EdgeInsets.only(right: screenSize.screenWidth(10)),
+          child: GestureDetector(
+            onTap: onEdit,
+            child: ImageIcon(
+              AssetImage('assets/icons/4.png'),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: screenSize.screenWidth(10)),
+          child: GestureDetector(
+            onTap: onDelete,
+            child: ImageIcon(
+              AssetImage('assets/icons/39.png'),
+            ),
+          ),
+        )
       ]
 
     );

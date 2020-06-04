@@ -46,6 +46,7 @@ class _AddPersonState extends State<AddPerson> {
     }
     if(doctorID != null){
        data = Provider.of<DoctorProvider>(context, listen: false).doctor;
+
     }
     void submit()async{
       submitUtils.doctorSubmit(isDrawer: args.isDrawer,doctorID: doctorID ,data: data ,formKey: _formKey);

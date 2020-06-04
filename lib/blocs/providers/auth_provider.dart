@@ -8,6 +8,10 @@ import 'dart:convert';
 
 import '../models/user.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:devida/ui/screens/login_screen.dart';
+
 class AuthProvider with ChangeNotifier {
   Map<String,String> headers = {
     'Accept': 'application/json',
@@ -16,7 +20,10 @@ class AuthProvider with ChangeNotifier {
 
   User _user;
   String _token;
+  String _userName=' ';
+  String _userJob=' ';
   int _userId;
+  bool _isAuth;
 
   User get user {
     return _user;
@@ -28,6 +35,18 @@ class AuthProvider with ChangeNotifier {
 
   int get userId{
     return _userId;
+  }
+
+  String get user_name{
+    return _userName;
+  }
+
+  String get user_job{
+    return _userJob;
+  }
+
+  bool get isAuth{
+    return _isAuth;
   }
 
 
@@ -50,14 +69,44 @@ class AuthProvider with ChangeNotifier {
         _user = User.fromJson(extractedData['data']);
         _userId = User.fromJson(extractedData['data']).user_id;
         _token = User.fromJson(extractedData['data']).api_token;
-        //final prefs =await SharedPreferences.getInstance();
-        //prefs.setInt('userId',_userId);
-        //prefs.setString('token', _token);
+        _userName = User.fromJson(extractedData['data']).user_name;
+        _userJob = User.fromJson(extractedData['data']).user_job;
         notifyListeners();
+        SharedPreferences prefs =await SharedPreferences.getInstance();
+        await prefs.setString('api_token',  _token);
+        await prefs.setString('user_name',  _userName);
+        await prefs.setString('user_job',   _userJob);
+
         return 0;
       }
       return 2;
     }
+  }
 
+  void logout()async{
+//    _token = null;
+//    _userId = null;
+//    _userName = null;
+//    _userJob = null;
+    final prefs = await SharedPreferences.getInstance();
+    notifyListeners();
+    prefs.clear();
+  }
+
+
+   loadPref()async{
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    _token = await prefs.getString('api_token');
+    _userName = await prefs.getString('user_name');
+    _userJob = await prefs.getString('user_job');
+    notifyListeners();
+  }
+
+
+   Future<String>currentUser()async{
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    String t = null;
+    t = await prefs.getString('api_token');
+    return t;
   }
 }

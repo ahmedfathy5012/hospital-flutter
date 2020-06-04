@@ -7,6 +7,8 @@ import '../widgets/search_bar.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/data_list.dart';
 import '../widgets/draw_drawer.dart';
+import '../widgets/build_future.dart';
+
 import 'package:provider/provider.dart';
 
 
@@ -28,8 +30,8 @@ class DoctorsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
 
-    Future<void> _refreshDoctors() async {
-      await Provider.of<DoctorsProvider>(context, listen: false)
+    Future<bool> _refreshDoctors() async {
+     return  await Provider.of<DoctorsProvider>(context, listen: false)
           .fetchAndSetDoctors();
     }
     void filterSearchResults(text){
@@ -68,29 +70,24 @@ class DoctorsScreen extends StatelessWidget {
               SizedBox(
                 height: screenSize.screenHight(20.0),
               ),
-              FutureBuilder(
-                future: _refreshDoctors(),
-                builder: (context, snapshot) =>
-                    snapshot.connectionState == ConnectionState.waiting
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : RefreshIndicator(
-                            onRefresh: _refreshDoctors,
-                            child: Consumer<DoctorsProvider>(
-                              builder: (context,doctorsData,_)=> DataList(
-                                  isDoctor: true,
-                                  data: doctorsData.doctors,
-                                  onTap: (value) {
-                                    doctorID = value;
-                                    print(doctorID);
-                                    Navigator.of(context).pushNamed(
-                                        DoctorScreen.routName,
-                                        arguments: doctorID);
-                                  },
-                                ),
-                            ),
-                          ),
+              BuildFuture(
+                fetchData: _refreshDoctors,
+                child: RefreshIndicator(
+                  onRefresh: _refreshDoctors,
+                  child: Consumer<DoctorsProvider>(
+                    builder: (context,doctorsData,_)=> DataList(
+                      isDoctor: true,
+                      data: doctorsData.doctors,
+                      onTap: (value) {
+                        doctorID = value;
+                        print(doctorID);
+                        Navigator.of(context).pushNamed(
+                            DoctorScreen.routName,
+                            arguments: doctorID);
+                      },
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

@@ -6,6 +6,7 @@ import '../widgets/search_bar.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/data_list.dart';
 import '../widgets/draw_drawer.dart';
+import '../widgets/build_future.dart';
 
 import 'package:provider/provider.dart';
 
@@ -30,8 +31,8 @@ class PatientsScreen extends StatelessWidget {
     ScreenHelper screenSize = ScreenHelper(context);
     List<Patients> data =
         Provider.of<PatientsProvider>(context, listen: false).patients;
-    Future<void> _refreshPatients() async {
-      await Provider.of<PatientsProvider>(context, listen: false)
+    Future<bool> _refreshPatients() async {
+     return  await Provider.of<PatientsProvider>(context, listen: false)
           .fetchAndSetPatients();
     }
     void filterSearchResults(text){
@@ -70,14 +71,9 @@ class PatientsScreen extends StatelessWidget {
               SizedBox(
                 height: screenSize.screenHight(20.0),
               ),
-              FutureBuilder(
-                future: _refreshPatients(),
-                builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : RefreshIndicator(
+              BuildFuture(
+                fetchData: _refreshPatients,
+                child:  RefreshIndicator(
                   onRefresh: _refreshPatients,
                   child: Consumer<PatientsProvider>(
                     builder: (context, patientsData, _) => DataList(

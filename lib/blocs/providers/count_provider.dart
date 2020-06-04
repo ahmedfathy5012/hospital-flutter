@@ -6,24 +6,29 @@ import 'dart:convert';
 
 import '../models/count.dart';
 
-class CountProvider with ChangeNotifier {
+import 'package:devida/helpers/api_helper.dart';
 
-  Map<String,String> headers = {
-    'Accept': 'application/json',
-  };
+class CountProvider extends ApiHelper with ChangeNotifier {
 
 
   Count _count;
 
-  Count get count{
-    return _count;
-  }
+  Count get count => _count;
 
-  Future<void> fetchCount()async{
-    String url = 'http://192.168.153.1/hospital-api/public/api/data-count';
-    final response = await http.get(url,headers:headers);
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+  Future<bool> fetchCount()async{
+    final response = await http.get(FETCH_COUNT_URL,headers:await getHeaders());
+    var extractedData;
+    try{
+      extractedData = json.decode(response.body) as Map<String, dynamic>;
+    } catch(e){
+      return false;
+    }
     _count = Count.fromJson(extractedData['data']);
+    print(extractedData);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 }

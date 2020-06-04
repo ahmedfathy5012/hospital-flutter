@@ -5,7 +5,9 @@ import 'dart:convert';
 
 import '../models/employees.dart';
 
-class EmployeesProvider with ChangeNotifier{
+import '../../helpers/api_helper.dart';
+
+class EmployeesProvider extends ApiHelper with ChangeNotifier{
   Map<String,String> headers = {
     'Accept': 'application/json',
   };
@@ -24,8 +26,8 @@ class EmployeesProvider with ChangeNotifier{
     return [..._employees];
   }
 
-  Future<Employees> fetchAndSetEmployees() async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/employees';
+  Future<bool> fetchAndSetEmployees() async {
+
     if(_searchText.isNotEmpty){
       _employees.clear();
       searchList.forEach((item){
@@ -33,8 +35,10 @@ class EmployeesProvider with ChangeNotifier{
           _employees.add(item);
         }
       });
+      notifyListeners();
+
     }else{
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_EMPLOYEES_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Employees> loadedProducts = [];
       for (var item in extractedData['data']){
@@ -45,9 +49,13 @@ class EmployeesProvider with ChangeNotifier{
       _employees=loadedProducts;
       searchList.clear();
       searchList.addAll(loadedProducts);
+      print(_employees[3].fullName);
+      notifyListeners();
+      if(response.statusCode==200)
+        return true;
+      return false;
     }
 
-    print(_employees[3].fullName);
-    notifyListeners();
+
   }
 }

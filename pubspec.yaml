@@ -58,9 +58,8 @@ flutter:
   #  - images/a_dot_ham.jpeg
 
   assets:
-   - assets/logo/LOGO2.png
-   - assets/logo/LOGO.png
-   - assets/images/3.png
+   - assets/logo/
+   - assets/images/
    - assets/icons/
 
 

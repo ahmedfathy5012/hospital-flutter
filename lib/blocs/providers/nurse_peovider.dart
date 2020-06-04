@@ -5,7 +5,9 @@ import '../models/nurse.dart';
 
 import 'package:http/http.dart' as http;
 
-class NurseProvider with ChangeNotifier {
+import '../../helpers/api_helper.dart';
+
+class NurseProvider extends ApiHelper with ChangeNotifier {
 
   Map<String,String> headers = {
     'Accept': 'application/json',
@@ -18,13 +20,15 @@ class NurseProvider with ChangeNotifier {
     return _nurse;
   }
 
-  Future<Nurse> fetchAndSetNurse(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/nurse/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetNurse(int id) async {
+    final response = await http.get(FETCH_NURSE_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _nurse = Nurse.fromJson(extractedData['data']);
     print(_nurse.first_name);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
   Future<Nurse> updateNurse(int id , Nurse nurse) async {
@@ -46,8 +50,7 @@ class NurseProvider with ChangeNotifier {
       'date_of_birth' : nurse.date_of_birth.toString(),
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-nurse/$id';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(UPDATE_NURSE_URL(id),headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -60,7 +63,7 @@ class NurseProvider with ChangeNotifier {
   Future<http.Response> addNurse(int id , Nurse nurse , String identification_number) async {
 
     Map<String,dynamic> body = {
-    'Identification_number' : identification_number.toString(),
+    'Identification_number' : nurse.identification_number.toString(),
     'first_name' : nurse.first_name.toString(),
     'second_name': nurse.second_name.toString(),
     'third_name' : nurse.third_name.toString(),
@@ -80,9 +83,7 @@ class NurseProvider with ChangeNotifier {
     'date_of_birth' : nurse.date_of_birth.toString(),
     };
 
-
-    String url = 'http://192.168.153.1/hospital-api/public/api/add-nurse';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(ADD_NURSE_URL,headers:await getHeaders(),
     body:  body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))

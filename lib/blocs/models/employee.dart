@@ -31,6 +31,7 @@ class Employee{
   User user;
   Nationality nationality;
   String identification_number;
+  int user_role_id;
 
   Employee({
     this.id,
@@ -56,7 +57,8 @@ class Employee{
     this.user,
     this.nationality,
     this.full_name,
-    this.identification_number
+    this.identification_number,
+    this.user_role_id,
   });
 
   Employee.fromJson(Map<String,dynamic> jsonObject){

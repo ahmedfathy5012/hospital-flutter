@@ -9,6 +9,7 @@ class Employees{
   String showName;
   String image;
   Job job;
+  String gender;
 
 
   Employees({ this.id, this.fullName,  this.showName,this.image, this.job});
@@ -19,6 +20,7 @@ class Employees{
     this.showName=jsonObject['employee_show_name'];
     this.image=jsonObject['employee_image'];
     this.job = Job.fromJson(jsonObject['employee_job']);
+    this.gender=jsonObject['gender'];
 
   }
 }

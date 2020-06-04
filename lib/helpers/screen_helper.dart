@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../ui/screens/login_screen.dart';
+import 'pref_services.dart';
 class ScreenHelper{
 
   BuildContext context;
@@ -44,7 +46,7 @@ class ScreenHelper{
   void showProgressDialog(){
     showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return
           AlertDialog(

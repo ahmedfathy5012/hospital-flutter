@@ -6,7 +6,9 @@ import '../models/patient_case.dart';
 
 import 'package:http/http.dart' as http;
 
-class PatientProvider with ChangeNotifier {
+import '../../helpers/api_helper.dart';
+
+class PatientProvider extends ApiHelper with ChangeNotifier {
 
   Map<String,String> headers = {
     'Accept': 'application/json',
@@ -28,22 +30,26 @@ class PatientProvider with ChangeNotifier {
     return _patientCase;
   }
 
-  Future<void> fetchAndSetPatient(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/patient/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetPatient(int id) async {
+    final response = await http.get(FETCH_PATIENT_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _patient = Patient.fromJson(extractedData['data']);
     //print(_patient.first_name);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
 
-  Future<void> fetchAndSetPatientCase(int id) async {
-    String url = 'http://192.168.153.1/hospital-api/public/api/patient_case/$id';
-    final response = await http.get(url,headers:headers);
+  Future<bool> fetchAndSetPatientCase(int id) async {
+    final response = await http.get(FETCH_CASE_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _patientCase = PatientCase.fromJson(extractedData['data']);
     notifyListeners();
+    if(response.statusCode==200)
+      return true;
+    return false;
   }
 
   Future<Patient> updatePatient(int id , Patient patient) async {
@@ -65,8 +71,7 @@ class PatientProvider with ChangeNotifier {
       'date_of_birth' : patient.date_of_birth.toString(),
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-patient/$id';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(UPDATE_PATIENT_URL(id),headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -79,7 +84,7 @@ class PatientProvider with ChangeNotifier {
   Future<http.Response> addPatient(int id , Patient patient , String identification_number) async {
 
     Map<String,dynamic> body = {
-    'Identification_number' : identification_number.toString(),
+    'Identification_number' : patient.identification_number.toString(),
     'first_name' : patient.first_name.toString(),
     'second_name': patient.second_name.toString(),
     'third_name' : patient.third_name.toString(),
@@ -99,8 +104,7 @@ class PatientProvider with ChangeNotifier {
     'date_of_birth' : patient.date_of_birth.toString(),
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/add-patient';
-    final response = await http.post(url,headers:headers,
+    final response = await http.post(ADD_PATIENT_URL,headers:await getHeaders(),
     body:  body
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))

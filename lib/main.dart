@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import './ui/screens/splash_screen.dart';
 import './ui/screens/login_screen.dart';
@@ -39,19 +41,19 @@ import 'package:devida/blocs/providers/nurses_provider.dart';
 import 'package:devida/blocs/providers/Diagnose_provider.dart';
 import 'package:devida/blocs/providers/surgery_provider.dart';
 import 'package:devida/blocs/providers/anesthetics_provider.dart';
+import 'package:devida/blocs/providers/auth_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 void main() {
-  SharedPreferences.setMockInitialValues({});
+
+  //SharedPreferences.setMockInitialValues({});
   runApp(MyApp());
 }
 
-
-
-
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -70,34 +72,73 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: SurgeryProvider()),
         ChangeNotifierProvider.value(value: AnestheticsProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
-        routes: {
-          DoctorScreen.routName : (context)=>DoctorScreen(),
-          AddPerson.routName : (context)=>AddPerson(),
-          LoginScreen.routName : (context)=>LoginScreen(),
-          HomeScreen.routName : (context)=>HomeScreen(),
-          DoctorsScreen.routName : (context)=>DoctorsScreen(),
-          PatientsScreen.routName : (context)=>PatientsScreen(),
-          PatientScreen.routName : (context)=>PatientScreen(),
-          EmployeesScreen.routName : (context)=>EmployeesScreen(),
-          NursesScreen.routName : (context)=>NursesScreen(),
-          EmployeeScreen.routName : (context)=>EmployeeScreen(),
-          NurseScreen.routName : (context)=>NurseScreen(),
-          EmployeeFormScreen.routName : (context)=>EmployeeFormScreen(),
-          NurseFormScreen.routName : (context)=>NurseFormScreen(),
-          PatientFormScreen.routName : (context)=>PatientFormScreen(),
-          DiagnoseScreen.routName : (context)=>DiagnoseScreen(),
-          SurgeryScreen.routName : (context)=>SurgeryScreen(),
-          PatientCaseScreen.routName : (context)=>PatientCaseScreen(),
-          DiagnoseFormScreen.routName : (context)=>DiagnoseFormScreen(),
-          SurgeryFormScreen.routName : (context)=>SurgeryFormScreen(),
-          DiagnosesScreen.routName : (context)=>DiagnosesScreen(),
-          SurgeriesScreen.routName : (context)=>SurgeriesScreen(),
-        },
-      ),
+        child : MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: InitPage(),
+            routes: {
+              DoctorScreen.routName : (context)=>DoctorScreen(),
+              AddPerson.routName : (context)=>AddPerson(),
+              LoginScreen.routName : (context)=>LoginScreen(),
+              HomeScreen.routName : (context)=>HomeScreen(),
+              DoctorsScreen.routName : (context)=>DoctorsScreen(),
+              PatientsScreen.routName : (context)=>PatientsScreen(),
+              PatientScreen.routName : (context)=>PatientScreen(),
+              EmployeesScreen.routName : (context)=>EmployeesScreen(),
+              NursesScreen.routName : (context)=>NursesScreen(),
+              EmployeeScreen.routName : (context)=>EmployeeScreen(),
+              NurseScreen.routName : (context)=>NurseScreen(),
+              EmployeeFormScreen.routName : (context)=>EmployeeFormScreen(),
+              NurseFormScreen.routName : (context)=>NurseFormScreen(),
+              PatientFormScreen.routName : (context)=>PatientFormScreen(),
+              DiagnoseScreen.routName : (context)=>DiagnoseScreen(),
+              SurgeryScreen.routName : (context)=>SurgeryScreen(),
+              PatientCaseScreen.routName : (context)=>PatientCaseScreen(),
+              DiagnoseFormScreen.routName : (context)=>DiagnoseFormScreen(),
+              SurgeryFormScreen.routName : (context)=>SurgeryFormScreen(),
+              DiagnosesScreen.routName : (context)=>DiagnosesScreen(),
+              SurgeriesScreen.routName : (context)=>SurgeriesScreen(),
+            },
+             ),
     );
   }
 }
+
+
+class InitPage extends StatefulWidget {
+  @override
+  _InitPageState createState() => _InitPageState();
+}
+
+class _InitPageState extends State<InitPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 3),
+            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context){
+              return FutureBuilder(
+                  future:  Provider.of<AuthProvider>(context,listen: false).currentUser(),
+                  builder: (context,snapshot){
+                    if(snapshot.connectionState==ConnectionState.done){
+                      if(snapshot.hasData){
+                        print(snapshot.data);
+                        return HomeScreen();
+                      }else{
+                        return LoginScreen();
+                      }
+                    }
+                    return LoginScreen();
+                  }
+              );
+            })));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SplashScreen();
+  }
+}
+
 

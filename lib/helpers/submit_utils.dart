@@ -26,7 +26,7 @@ import '../blocs/providers/auth_provider.dart';
 
 import '../blocs/models/user.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SubmitUtils {
   BuildContext context;
@@ -242,7 +242,6 @@ class SubmitUtils {
 
   Future<User> loginSubmit({GlobalKey<FormState> formKey, var authData}) async {
     User userData;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     ScreenHelper screenHelper = ScreenHelper(context);
     if (formKey.currentState.validate()) {
       formKey.currentState.save(); // Save our form now.
@@ -251,14 +250,7 @@ class SubmitUtils {
           .login(authData.userName, authData.password);
       if (response == 0) {
         try{
-
           userData = Provider.of<AuthProvider>(context, listen: false).user;
-
-          await prefs.setString('api_token', userData.api_token.toString());
-          await prefs.setString('user_name', userData.user_name.toString());
-          await prefs.setString('user_job', userData.user_job.toString());
-
-          print('user_name ${prefs.getString('user_job')}');
         }catch(e){
           print(e);
          };

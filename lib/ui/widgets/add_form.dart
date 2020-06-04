@@ -72,6 +72,15 @@ class AddForm extends StatelessWidget {
     selectionData(id:8,title:'AB+'),
   ];
 
+
+  List roles = [
+    selectionData(id:1,title:'Admin'),
+    selectionData(id:2,title:'ana'),
+    selectionData(id:3,title:'Admin'),
+    selectionData(id:4,title:'Admin'),
+    selectionData(id:5,title:'Admin'),
+  ];
+
   List nationalities = [
     selectionData(id:1,title:'Kyrgyz Republic'),
     selectionData(id:2,title:'Saint Vincent and the Grenadines'),
@@ -308,15 +317,24 @@ class AddForm extends StatelessWidget {
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  TextFieldBlock(
-                    hintText: 'Image',
-                    height: screenSize.screenHight(37.0),
-                    returnValue: null,
-                    initValue: personID==null?null:data.image,
+                  ChooseBlook(
+                    dialogTitle: 'Choose Role ',
+                    title: 'Role',
+                    data: roles,
+                    initialValue: personID==null?null:data.user.user_role.toString(),
                     onSaved: (value) {
-                      data.image = value.toString();
+                      data.user_role_id = value;
                     },
-                  ),
+                  )
+//                  TextFieldBlock(
+//                    hintText: 'Image',
+//                    height: screenSize.screenHight(37.0),
+//                    returnValue: null,
+//                    initValue: personID==null?null:data.image,
+//                    onSaved: (value) {
+//                      data.image = value.toString();
+//                    },
+//                  ),
                 ],
               ),
             )),

@@ -22,6 +22,6 @@ class User{
     if(jsonObject['user_image']!=null)
     this.user_image=jsonObject['user_image'];
     this.user_job=jsonObject['user_job'];
-    this.user_job=jsonObject['user_job'];
+    this.user_name=jsonObject['user_name'];
   }
 }

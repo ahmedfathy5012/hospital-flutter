@@ -7,6 +7,8 @@ import '../widgets/search_bar.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/data_list.dart';
 import '../widgets/draw_drawer.dart';
+import '../widgets/build_future.dart';
+
 import 'package:provider/provider.dart';
 
 
@@ -26,8 +28,8 @@ class EmployeesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
-    Future<void> _refreshEmployees() async {
-      await Provider.of<EmployeesProvider>(context, listen: false)
+    Future<bool> _refreshEmployees() async {
+      return await Provider.of<EmployeesProvider>(context, listen: false)
           .fetchAndSetEmployees();
     }
     void filterSearchResults(text){
@@ -66,14 +68,9 @@ class EmployeesScreen extends StatelessWidget {
               SizedBox(
                 height: screenSize.screenHight(20.0),
               ),
-              FutureBuilder(
-                future: _refreshEmployees(),
-                builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : RefreshIndicator(
+              BuildFuture(
+                fetchData: _refreshEmployees,
+                child: RefreshIndicator(
                   onRefresh: _refreshEmployees,
                   child: Consumer<EmployeesProvider>(
                     builder: (context, employeesData, _) => DataList(
