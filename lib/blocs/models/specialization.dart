@@ -1,14 +1,29 @@
 import 'package:flutter/foundation.dart';
+import 'abstractmodel.dart';
+class Specialization extends AbstractModel{
 
-class Specialization{
-  int specialization_id;
-  String specialization_name;
+  static String table = 'specializations';
 
-  Specialization({@required this.specialization_id,@required this.specialization_name});
+
+  int id;
+  String title;
+
+  Specialization({@required this.id,@required this.title});
 
 
   Specialization.fromJson(Map<String,dynamic> jsonObject){
-    this.specialization_id=jsonObject['specialization_id'];
-    this.specialization_name=jsonObject['specialization_name'];
+    this.id=jsonObject['specialization_id'];
+    this.title=jsonObject['specialization_name'];
+  }
+  Specialization.fromSQFLITE(Map<String,dynamic> jsonObject){
+    this.id=jsonObject['id'];
+    this.title=jsonObject['title'];
+  }
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'specialization_id': id,
+      'specialization_name': title
+    };
+    return map;
   }
 }

@@ -25,7 +25,7 @@ import './ui/screens/surgery_form_screen.dart';
 import './ui/screens/diagnoses_screen.dart';
 import './ui/screens/surgeries_screen.dart';
 
-
+import 'package:devida/blocs/models/blood.dart';
 
 import 'package:provider/provider.dart';
 import 'package:devida/blocs/providers/doctor_provider.dart';
@@ -41,13 +41,15 @@ import 'package:devida/blocs/providers/nurses_provider.dart';
 import 'package:devida/blocs/providers/Diagnose_provider.dart';
 import 'package:devida/blocs/providers/surgery_provider.dart';
 import 'package:devida/blocs/providers/anesthetics_provider.dart';
+import 'package:devida/blocs/providers/util_provider.dart';
 import 'package:devida/blocs/providers/auth_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:devida/helpers/database_helper.dart';
 
-void main() {
 
+void main(){
   //SharedPreferences.setMockInitialValues({});
   runApp(MyApp());
 }
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: DiagnoseProvider()),
         ChangeNotifierProvider.value(value: SurgeryProvider()),
         ChangeNotifierProvider.value(value: AnestheticsProvider()),
+        ChangeNotifierProvider.value(value: UtilProvider()),
       ],
         child : MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -138,6 +141,7 @@ class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen();
+
   }
 }
 

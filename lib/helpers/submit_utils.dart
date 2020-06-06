@@ -38,6 +38,7 @@ class SubmitUtils {
         var data,
         bool isDrawer=false
       }) async {
+    print('tested data is ${data.blood_id}');
     ScreenHelper screenHelper = ScreenHelper(context);
     if (formKey.currentState.validate()) {
       formKey.currentState.save(); // Save our form now.

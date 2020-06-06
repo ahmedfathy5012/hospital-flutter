@@ -2,6 +2,10 @@ import 'package:devida/helpers/screen_helper.dart';
 import 'package:flutter/material.dart';
 import 'text_field_block.dart';
 import 'choose_block.dart';
+import 'build_future.dart';
+import 'package:provider/provider.dart';
+import 'package:devida/blocs/providers/util_provider.dart';
+import 'package:devida/helpers/database_helper.dart';
 
 class selectionData{
   final int id;
@@ -11,7 +15,9 @@ class selectionData{
 
 }
 
+
 class AddForm extends StatelessWidget {
+  DatabaseHelper helper = DatabaseHelper();
   var data;
   int personID;
   GlobalKey<FormState> formKey;
@@ -19,88 +25,12 @@ class AddForm extends StatelessWidget {
   bool isDoctor;
   bool isPatient;
 
+
   AddForm({this.data , this.personID , this.formKey , this.returniIdentification_number , this.isDoctor=false , this.isPatient=false});
-  List jobs = [
-    selectionData(id:1,title:'Human Resource Director'),
-    selectionData(id:2,title:'Municipal Clerk'),
-    selectionData(id:3,title:'Auxiliary Equipment Operator'),
-    selectionData(id:4,title:'Municipal Court Clerk'),
-    selectionData(id:5,title:'Cardiovascular Technologist'),
-    selectionData(id:6,title:'Counselor'),
-    selectionData(id:7,title:'Textile Knitting Machine Operator'),
-    selectionData(id:8,title:'Production Helper'),
-    selectionData(id:9,title:'Computer Software Engineer'),
-    selectionData(id:10,title:'Construction Laborer'),
-    selectionData(id:11,title:'Fashion Model'),
-  ];
 
-
-  List socialStatus = [
+  List SocialStatus = [
     selectionData(id:1,title:'Married'),
     selectionData(id:2,title:'Celibate'),
-  ];
-
-  List patientJobs = [
-    selectionData(id:1,title:'Married'),
-    selectionData(id:2,title:'Celibate'),
-    selectionData(id:3,title:'Married'),
-    selectionData(id:4,title:'Celibate'),
-    selectionData(id:5,title:'Married'),
-    selectionData(id:6,title:'Celibate'),
-    selectionData(id:7,title:'Married'),
-    selectionData(id:8,title:'Celibate'),
-    selectionData(id:9,title:'Married'),
-    selectionData(id:10,title:'Celibate'),
-    selectionData(id:11,title:'Married'),
-    selectionData(id:12,title:'Celibate'),
-  ];
-
-  List genders = [
-    selectionData(id:1,title:'Male'),
-    selectionData(id:2,title:'Female'),
-    selectionData(id:3,title:'other'),
-  ];
-
-  List blood = [
-    selectionData(id:1,title:'O+'),
-    selectionData(id:2,title:'A-'),
-    selectionData(id:3,title:'B-'),
-    selectionData(id:4,title:'A+'),
-    selectionData(id:5,title:'O-'),
-    selectionData(id:6,title:'B+'),
-    selectionData(id:7,title:'AB-'),
-    selectionData(id:8,title:'AB+'),
-  ];
-
-
-  List roles = [
-    selectionData(id:1,title:'Admin'),
-    selectionData(id:2,title:'ana'),
-    selectionData(id:3,title:'Admin'),
-    selectionData(id:4,title:'Admin'),
-    selectionData(id:5,title:'Admin'),
-  ];
-
-  List nationalities = [
-    selectionData(id:1,title:'Kyrgyz Republic'),
-    selectionData(id:2,title:'Saint Vincent and the Grenadines'),
-    selectionData(id:3,title:'Austria'),
-    selectionData(id:4,title:'Belgium'),
-    selectionData(id:5,title:'Turkmenistan'),
-  ];
-
-
-  List specializations = [
-    selectionData(id:1,title:'voluptas'),
-    selectionData(id:2,title:'in'),
-    selectionData(id:3,title:'aut'),
-    selectionData(id:4,title:'explicabo'),
-    selectionData(id:5,title:'ratione'),
-    selectionData(id:6,title:'debitis'),
-    selectionData(id:7,title:'repudiandae'),
-    selectionData(id:8,title:'rem'),
-    selectionData(id:9,title:'dolor'),
-    selectionData(id:10,title:'quidem'),
   ];
 
   @override
@@ -208,10 +138,10 @@ class AddForm extends StatelessWidget {
                   ChooseBlook(
                     dialogTitle: 'Choose Social Status',
                     title: 'Social Status',
-                    data: socialStatus,
+                    utilName: 'social',
                     initialValue: personID==null?null:data.social_status,
                     onSaved: (value) {
-                      data.social_status = socialStatus[value-1].title;
+                      data.social_status = SocialStatus[value-1].title;
                     },
                   ),
                   SizedBox(
@@ -220,10 +150,11 @@ class AddForm extends StatelessWidget {
                   ChooseBlook(
                     dialogTitle: 'Choose Nationality',
                     title: 'Nationality',
-                    data: nationalities,
-                    initialValue: personID==null?null:data.nationality.nationality_name,
+                    utilName: 'nationality',
+                    helper: helper,
+                    initialValue: personID==null?null:data.nationality.title,
                     onSaved: (value) {
-                      data.nationality_id = value;
+                      data.id = value;
                     },
                   ),
                   isDoctor?
@@ -237,8 +168,9 @@ class AddForm extends StatelessWidget {
                   ChooseBlook(
                     dialogTitle: 'Choose Specialization',
                     title: 'Specialization',
-                    data: specializations,
-                    initialValue: personID==null?null:data.specialization.specialization_name,
+                    utilName: 'specialization',
+                    helper: helper,
+                    initialValue: personID==null?null:data.specialization.title,
                     onSaved: (value) {
                       data.specialization_id = value;
                     },):SizedBox(height: 0.0,),
@@ -247,21 +179,31 @@ class AddForm extends StatelessWidget {
                     height: screenSize.screenHight(10.0),
                   ),
                   isPatient?
-                  ChooseBlook(
-                    dialogTitle: 'Choose Job Title',
-                    title: 'Job Title',
-                    data: patientJobs,
-                    initialValue: personID==null?null:data.job,
+                  TextFieldBlock(
+                    hintText: 'Job',
+                    //height: screenSize.screenHight(37.0),
+                    returnValue: 'Please Enter Job title',
+                    initValue: personID==null?null:data.job,
                     onSaved: (value) {
-                      data.job = patientJobs[value-1].title;
+                      data.job = value.toString();
                     },
                   )
+//                  ChooseBlook(
+//                    dialogTitle: 'Choose Job Title',
+//                    title: 'Job Title',
+//                    data: patientJobs,
+//                    initialValue: personID==null?null:data.job,
+//                    onSaved: (value) {
+//                      data.job = patientJobs[value-1].title;
+//                    },
+//                  )
                       :
                   ChooseBlook(
                     dialogTitle: 'Choose Job Title',
                     title: 'Job Title',
-                    data: jobs,
-                    initialValue: personID==null?null:data.job.job_name,
+                    utilName: 'job',
+                    helper: helper,
+                    initialValue: personID==null?null:data.job.title,
                     onSaved: (value) {
                       data.job_id = value;
                     },),
@@ -271,8 +213,9 @@ class AddForm extends StatelessWidget {
                   ChooseBlook(
                     dialogTitle: 'Choose Gender',
                     title: 'Gender',
-                    data: genders,
-                    initialValue: personID==null?null:data.gender.gender_name,
+                    utilName: 'gender',
+                    helper: helper,
+                    initialValue: personID==null?null:data.gender.title,
                     onSaved: (value) {
                       data.gender_id = value;
                     },
@@ -281,14 +224,18 @@ class AddForm extends StatelessWidget {
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  ChooseBlook(
-                    dialogTitle: 'Choose Blood',
-                    title: 'Blood',
-                    data: blood,
-                    initialValue:personID==null?null: data.blood.blood_name,
-                    onSaved: (value) {
-                      data.blood_id = value;
-                    },),
+
+                      ChooseBlook(
+                        dialogTitle: 'Choose Blood',
+                        title: 'Blood',
+                        utilName: 'blood',
+                        helper: helper,
+                        initialValue:personID==null?null: data.blood.title,
+                        onSaved: (value) {
+                          data.blood_id = value;
+                        },),
+
+
 
                   SizedBox(
                     height: screenSize.screenHight(10.0),
@@ -317,13 +264,15 @@ class AddForm extends StatelessWidget {
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
+
                   ChooseBlook(
                     dialogTitle: 'Choose Role ',
                     title: 'Role',
-                    data: roles,
+                    utilName: 'role',
+                    helper: helper,
                     initialValue: personID==null?null:data.user.user_role.toString(),
                     onSaved: (value) {
-                      data.user_role_id = value;
+                      data.user.user_role_id = value;
                     },
                   )
 //                  TextFieldBlock(

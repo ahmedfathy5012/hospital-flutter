@@ -49,6 +49,7 @@ class _AddPersonState extends State<AddPerson> {
 
     }
     void submit()async{
+      print('my my my data is ${data.blood_id}');
       submitUtils.doctorSubmit(isDrawer: args.isDrawer,doctorID: doctorID ,data: data ,formKey: _formKey);
     }
     return Scaffold(

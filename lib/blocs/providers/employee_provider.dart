@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../helpers/api_helper.dart';
 
+
 class EmployeeProvider extends ApiHelper with ChangeNotifier {
 
   Map<String,String> headers = {
@@ -24,7 +25,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
     final response = await http.get(FETCH_EMPLOYEE_URL(id),headers:await getHeaders());
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _employee = Employee.fromJson(extractedData['data']);
-    print(_employee.blood.blood_id);
+    print(_employee.blood.id);
     notifyListeners();
     if(response.statusCode==200)
       return true;
@@ -48,6 +49,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
       'social_status': employee.social_status,
       'date_of_hiring':employee.date_of_hiring.toString(),
       'date_of_birth' : employee.date_of_birth.toString(),
+      'user_role_id' :employee.user.user_role_id.toString()
     };
 
 
@@ -56,7 +58,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _employee = Employee.fromJson(extractedData['data']);
-    print(_employee.blood.blood_id);
+    print(_employee.blood.id);
     notifyListeners();
   }
 
@@ -82,6 +84,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
     'social_status': employee.social_status.toString(),
     'date_of_hiring': DateTime.now().toString(),
     'date_of_birth' : employee.date_of_birth.toString(),
+    'user_role_id' :employee.user.user_role_id.toString()
     };
 
 

@@ -57,7 +57,7 @@ class NurseScreen extends StatelessWidget {
                     ),
                     InfoUpper(
                       title: nurseData.nurse.full_name,
-                      subtitle: nurseData.nurse.job.job_name,
+                      subtitle: nurseData.nurse.job.title,
                       image: 'assets/images/3.png',
                     ),
                     SizedBox(

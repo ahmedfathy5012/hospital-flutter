@@ -15,9 +15,16 @@ class ApiHelper extends PrefServices{
    final String ADD_NURSE_URL = MAIN_URL+'add-nurse';
    final String FETCH_PATIENTS_URL = MAIN_URL+'patients';
    final String ADD_PATIENT_URL = MAIN_URL+'add-patient';
-   final String ADD_SURGERY_URL = MAIN_URL+'add-patient';
+   final String ADD_SURGERY_URL = MAIN_URL+'add-operation';
    final String FETCH_SURERIES_URL = MAIN_URL+'operations';
+   final String FETCH_ANESRHETICS_URL = MAIN_URL+'anesthetics';
+   final String FETCH_BLOOD_URL = MAIN_URL+'blood';
 
+   final String FETCH_SPECIALIZATIONS_URL = MAIN_URL+'specializations';
+   final String FETCH_NATIONALITIES_URL = MAIN_URL+'nationalities';
+   final String FETCH_JOBS_URL = MAIN_URL+'jobs';
+   final String FETCH_GENDERS_URL = MAIN_URL+'sex';
+   final String FETCH_ROLES_URL = MAIN_URL+'roles';
 
    String FETCH_DIAGNOSE_URL(int id){
      return MAIN_URL+'diagnose/'+id.toString();

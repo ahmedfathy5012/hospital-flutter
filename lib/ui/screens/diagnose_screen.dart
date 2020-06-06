@@ -36,7 +36,8 @@ class DiagnoseScreen extends StatelessWidget {
                   DiagnoseFormScreen.routName,
                   arguments:
                   ScreenArguments(
-                    diagnose_id: diagnoseID
+                    diagnose_id: diagnoseID,
+                    patient_case_id: Provider.of<DiagnoseProvider>(context, listen: false).diagnose.patient_case_id
                   )
               );
             },

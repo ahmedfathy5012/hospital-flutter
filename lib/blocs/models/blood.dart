@@ -1,13 +1,29 @@
 import 'package:flutter/foundation.dart';
+import 'abstractmodel.dart';
+import 'package:devida/database/db.dart';
 
-class Blood {
-  int blood_id;
-  String blood_name;
+class Blood extends AbstractModel{
 
-  Blood({@required this.blood_id,@required this.blood_name});
+  static String table = 'blood';
+
+  int id;
+  String title;
+
+  Blood({@required this.id,@required this.title});
 
   Blood.fromJson(Map<String,dynamic> jsonObject){
-    this.blood_id=jsonObject['blood_id'];
-    this.blood_name=jsonObject['blood_name'];
+    this.id=jsonObject['blood_id'];
+    this.title=jsonObject['blood_name'];
+  }
+  Blood.fromSQFLITE(Map<String,dynamic> jsonObject){
+    this.id=jsonObject['id'];
+    this.title=jsonObject['title'];
+  }
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'blood_id': id,
+      'blood_name': title
+    };
+    return map;
   }
 }

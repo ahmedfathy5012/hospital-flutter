@@ -30,6 +30,7 @@ class PatientCaseScreen extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(screenSize.screenHight(50.0)),
           child: DrawAppBar(
+            isBack:true,
             title: 'Patient Case',
             onDelete: () {},
             onEdit: () {

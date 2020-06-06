@@ -1,13 +1,27 @@
 import 'package:flutter/foundation.dart';
+import 'abstractmodel.dart';
+class Gender extends AbstractModel{
 
-class Gender with ChangeNotifier{
-  int gender_id;
-  String gender_name;
+  static String table = 'genders';
 
-  Gender({@required this.gender_id,@required this.gender_name});
+  int id;
+  String title;
+
+  Gender({@required this.id,@required this.title});
 
   Gender.fromJson(Map<String,dynamic> jsonObject){
-    this.gender_id=jsonObject['gender_id'];
-    this.gender_name=jsonObject['gender_name'];
+    this.id=jsonObject['gender_id'];
+    this.title=jsonObject['gender_name'];
+  }
+  Gender.fromSQFLITE(Map<String,dynamic> jsonObject){
+    this.id=jsonObject['id'];
+    this.title=jsonObject['title'];
+  }
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'gender_id': id,
+      'gender_name': title
+    };
+    return map;
   }
 }

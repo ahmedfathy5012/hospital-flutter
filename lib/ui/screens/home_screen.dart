@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     children: <Widget>[
                       GridItem(
-                          count: countData.count.doctor_count,
+                          count: countData.count.doctor_count== null ? 0.toString() : countData.count.doctor_count,
                           title: 'Doctor',
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                                 arguments: null);
                           }),
                       GridItem(
-                          count: countData.count.employee_count,
+                          count: countData.count.employee_count == null ? 0.toString() : countData.count.employee_count,
                           title: 'Employee',
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                                 arguments: null);
                           }),
                       GridItem(
-                          count: countData.count.nurse_count,
+                          count: countData.count.nurse_count == null ? 0.toString() : countData.count.nurse_count,
                           title: 'Nurse',
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                                 arguments: null);
                           }),
                       GridItem(
-                          count: countData.count.Patient_count,
+                          count: countData.count.Patient_count == null ? 0.toString() : countData.count.Patient_count,
                           title: 'Patient',
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                                 arguments: null);
                           }),
                       GridItem(
-                          count: countData.count.diagnose_count,
+                          count: countData.count.diagnose_count == null ? 0.toString() : countData.count.diagnose_count,
                           title: 'Diagnose',
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                                 arguments: null);
                           }),
                       GridItem(
-                          count: countData.count.surgery_count,
+                          count: countData.count.surgery_count == null ? 0.toString() : countData.count.surgery_count,
                           title: 'Surgery',
                           onTap: () {
                             Navigator.of(context).pushNamed(

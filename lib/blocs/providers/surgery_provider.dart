@@ -65,7 +65,7 @@ class SurgeryProvider extends ApiHelper with ChangeNotifier{
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    print('${response.statusCode}');
+    print(extractedData);
     notifyListeners();
     return response;
   }

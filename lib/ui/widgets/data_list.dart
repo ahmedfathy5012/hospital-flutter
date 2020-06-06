@@ -41,13 +41,13 @@ class DataList extends StatelessWidget {
 
   String returnSubTitle(int index){
     if(isDoctor){
-     return data[index].specialization.specialization_name;
+     return data[index].specialization.title;
     }else if(isPatient){
       return data[index].date_of_file;
     }else if(isExtension){
       return data[index].doctor_name;
     }else{
-      return data[index].job.job_name;
+      return data[index].job.title;
     }
   }
 }

@@ -64,8 +64,8 @@ class DoctorScreen extends StatelessWidget {
                     ),
                     InfoUpper(
                       title: doctorData.doctor.full_name,
-                      subtitle: doctorData.doctor.specialization.specialization_name,
-                      image: doctorData.doctor.gender.gender_name.toString() == 'Male' ? 'assets/images/4.png' : 'assets/images/3.png',
+                      subtitle: doctorData.doctor.specialization.title,
+                      image: doctorData.doctor.gender.title.toString() == 'Male' ? 'assets/images/4.png' : 'assets/images/3.png',
                     ),
                     SizedBox(
                       height: screenSize.screenHight(30.0),

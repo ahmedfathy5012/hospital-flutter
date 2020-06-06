@@ -35,8 +35,8 @@ class DiagnoseProvider extends ApiHelper with ChangeNotifier{
       'patient_case_id' : diagnose.patient_case_id.toString(),
     };
 
-    String url = 'http://192.168.153.1/hospital-api/public/api/update-diagnose/$id';
-    final response = await http.post(UPDATE_DIAGNOSE_URL,headers:await getHeaders(),
+
+    final response = await http.post(UPDATE_DIAGNOSE_URL(id),headers:await getHeaders(),
         body:  body
     );
     final extractedData = json.decode(response.body) as Map<String, dynamic>;

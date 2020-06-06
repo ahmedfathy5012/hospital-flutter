@@ -5,10 +5,10 @@ import 'dart:convert';
 
 import '../models/anesthetics.dart';
 
-class AnestheticsProvider with ChangeNotifier{
-  Map<String,String> headers = {
-    'Accept': 'application/json',
-  };
+import '../../helpers/api_helper.dart';
+
+class AnestheticsProvider extends ApiHelper with ChangeNotifier{
+
 
 
   String _searchText = '';
@@ -34,7 +34,7 @@ class AnestheticsProvider with ChangeNotifier{
         }
       });
     }else{
-      http.Response response = await http.get(url,headers:headers);
+      http.Response response = await http.get(FETCH_ANESRHETICS_URL,headers:await getHeaders());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Anesthetics> loadedProducts = [];
       for (var item in extractedData['data']){

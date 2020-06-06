@@ -58,7 +58,7 @@ class EmployeeScreen extends StatelessWidget {
                     ),
                     InfoUpper(
                       title: employeeData.employee.full_name,
-                      subtitle: employeeData.employee.job.job_name,
+                      subtitle: employeeData.employee.job.title,
                       image: 'assets/images/3.png',
                     ),
                     SizedBox(
