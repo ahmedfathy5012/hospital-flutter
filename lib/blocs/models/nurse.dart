@@ -70,29 +70,29 @@ class Nurse{
   });
 
   Nurse.fromJson(Map<String,dynamic> jsonObject){
-    this.id =            jsonObject['nurse_id'];
-    this.first_name =    jsonObject['nurse_first_name'];
-    this.second_name =   jsonObject['nurse_second_name'];
-    this.third_name =    jsonObject['nurse_third_name'];
-    this.address =       jsonObject['nurse_address'];
-    this.phone =         jsonObject['nurse_phone'];
-    this.email =         jsonObject['nurse_email'];
-    this.social_status = jsonObject['nurse_social_status'];
-    this.notes =         jsonObject['nurse_notes'];
-    this.image =         jsonObject['nurse_image'];
-    this.full_name =     jsonObject['nurse_full_name'];
-    this.job_id=         jsonObject['job_id'];
-    this.gender_id =     jsonObject['gender_id'];
-    this.blood_id=       jsonObject['blood_id'];
-    this.user_id=        jsonObject['user_id'];
-    this.date_of_birth=  jsonObject['nurse_date_of_birth'];
-    this.date_of_hiring= jsonObject['nurse_date_of_hiring'];
-    this.nationality_id= jsonObject['nationality_id'];
-    this.job=      Job.fromJson(jsonObject['nurse_job']);
-    this.gender=Gender.fromJson(jsonObject['nurse_gender']);
-    this.blood=  Blood.fromJson(jsonObject['nurse_blood']);
-    this.user=    User.fromJson(jsonObject['nurse_user']);
-    this.nationality=Nationality.fromJson(jsonObject['nurse_nationality']);
+    this.id =            jsonObject['nurse_id'] == null ? ' ' : jsonObject['nurse_id'];
+    this.first_name =    jsonObject['nurse_first_name']== null ? ' ' : jsonObject['nurse_id'];
+    this.second_name =   jsonObject['nurse_second_name']      == null ? ' ' : jsonObject['nurse_second_name'];
+    this.third_name =    jsonObject['nurse_third_name']       == null ? ' ' : jsonObject['nurse_third_name'];
+    this.address =       jsonObject['nurse_address']          == null ? ' ' : jsonObject['nurse_address'];
+    this.phone =         jsonObject['nurse_phone']            == null ? ' ' : jsonObject['nurse_phone'];
+    this.email =         jsonObject['nurse_email']            == null ? ' ' : jsonObject['nurse_email'];
+    this.social_status = jsonObject['nurse_social_status']    == null ? ' ' : jsonObject['nurse_social_status'];
+    this.notes =         jsonObject['nurse_notes']            == null ? ' ' : jsonObject['nurse_notes'];
+    this.image =         jsonObject['nurse_image']            == null ? ' ' : jsonObject['nurse_image'];
+    this.full_name =     jsonObject['nurse_full_name']        == null ? ' ' : jsonObject['nurse_full_name'];
+    this.job_id=         jsonObject['job_id']                 == null ? ' ' : jsonObject['job_id'];
+    this.gender_id =     jsonObject['gender_id']              == null ? ' ' : jsonObject['gender_id'];
+    this.blood_id=       jsonObject['blood_id']               == null ? ' ' : jsonObject['blood_id'];
+    this.user_id=        jsonObject['user_id']                == null ? ' ' : jsonObject['user_id'];
+    this.date_of_birth=  jsonObject['nurse_date_of_birth']    == null ? ' ' : jsonObject['nurse_date_of_birth'];
+    this.date_of_hiring= jsonObject['nurse_date_of_hiring']   == null ? ' ' : jsonObject['nurse_date_of_hiring'];
+    this.nationality_id= jsonObject['nationality_id']         == null ? ' ' : jsonObject['nationality_id'];
+    this.job=      Job.fromJson(jsonObject['nurse_job'])      == null ? ' ' : jsonObject['nurse_job'];
+    this.gender=Gender.fromJson(jsonObject['nurse_gender'])   == null ? ' ' : jsonObject['nurse_gender'];
+    this.blood=  Blood.fromJson(jsonObject['nurse_blood'])    == null ? ' ' : jsonObject['nurse_blood'];
+    this.user=    User.fromJson(jsonObject['nurse_user'])     == null ? ' ' : jsonObject['nurse_user'];
+    this.nationality=Nationality.fromJson(jsonObject['nurse_nationality'])== null ? ' ' : Nationality.fromJson(jsonObject['nurse_nationality']);
 
   }
 

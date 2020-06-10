@@ -24,9 +24,9 @@ class GridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: screenSize.screenHight(17.0),),
-            Text('$count',style: TextStyle(fontSize: 42.0,color: Color(0xff5CA7E0),fontFamily: 'bahnschrirt' , fontWeight: FontWeight.w900),),
-            SizedBox(height: screenSize.screenHight(7.0),),
-            Text(title,style: TextStyle(fontSize: 20.0,color: Color(0xff1749A2),fontFamily: 'bahnschrirt' , fontWeight: FontWeight.w900),),
+            Text('$count',style: TextStyle(fontSize: screenSize.screenWidth(42.0),color: Color(0xff5CA7E0),fontFamily: 'bahnschrirt' , fontWeight: FontWeight.w900),),
+            SizedBox(height: screenSize.screenHight(5.0),),
+            Text(title,style: TextStyle(fontSize: screenSize.screenWidth(20.0),color: Color(0xff1749A2),fontFamily: 'bahnschrirt' , fontWeight: FontWeight.w900),),
           ],
         ),
       ),

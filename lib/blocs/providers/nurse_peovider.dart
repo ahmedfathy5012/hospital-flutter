@@ -21,10 +21,11 @@ class NurseProvider extends ApiHelper with ChangeNotifier {
   }
 
   Future<bool> fetchAndSetNurse(int id) async {
+    print('before');
     final response = await http.get(FETCH_NURSE_URL(id),headers:await getHeaders());
+    print('after');
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     _nurse = Nurse.fromJson(extractedData['data']);
-    print(_nurse.first_name);
     notifyListeners();
     if(response.statusCode==200)
       return true;

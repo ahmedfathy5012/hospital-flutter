@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'pref_services.dart';
 
 class ApiHelper extends PrefServices{
-   static const String MAIN_URL = 'http://192.168.153.1/hospital-api/public/api/';
+   static const String MAIN_URL = 'https://devida.herokuapp.com/api/';
    final String FETCH_DOCTORS_URL= MAIN_URL+'doctors';
    final String FETCH_COUNT_URL =MAIN_URL+'data-count';
    final String ADD_CASE_URL = MAIN_URL+'add-case';

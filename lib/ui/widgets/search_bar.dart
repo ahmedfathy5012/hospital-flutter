@@ -14,7 +14,7 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   ScreenHelper screenSize;
   TextEditingController controller = TextEditingController();
-  double width = 30.0;
+  double width = 45.0;
   bool isExpand=false;
   @override
   Widget build(BuildContext context) {
@@ -87,6 +87,7 @@ class _SearchBarState extends State<SearchBar> {
                       child: ImageIcon(
                         AssetImage('assets/icons/7.png'),
                         color: Color(0XFFA2A2A2),
+                        size: screenSize.screenWidth(20.0),
                       ),
                     ),
 

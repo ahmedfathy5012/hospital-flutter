@@ -68,120 +68,121 @@ class _DiagnoseFormScreenState extends State<DiagnoseFormScreen> {
                 Navigator.of(context).pop();
             },
           )),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
           child: Container(
               width: screenHelper.screenWidth(310),
               height: screenHelper.screenHight(560),
               color: Colors.transparent,
-              child: Form(
-                key: this._formKey,
-                child: ListView(
-                  children: <Widget>[
-                    SizedBox(
-                      height: screenHelper.screenHight(15.0),
-                    ),
-                    patientID != null || caseID != null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ):
-                    ChooseBlook(
-                      isSearch: true,
-                      isPatient: true,
-                      dialogTitle: 'Choose Patient',
-                      title: 'Patient',
-                      initialValue: diagnoseID==null?null:data.doctor_name,
-                      onSaved: (value) {
-                        data.patient_id = value;
-                      },
-                    ),
-                    patientID != null || caseID != null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ):
-                    SizedBox(
-                      height: screenHelper.screenHight(10.0),
-                    ),
-                    ChooseBlook(
-                      isSearch: true,
-                      dialogTitle: 'Choose Doctor',
-                      title: 'Doctor',
-                      initialValue: diagnoseID==null?null:data.doctor_name,
-                      onSaved: (value) {
-                        data.doctor_id = value;
-                      },
-                    ),
-                    SizedBox(
-                      height: screenHelper.screenHight(10.0),
-                    ),
-                    TextFieldBlock(
-                      maxLines: 5,
-                      hintText: 'Diagnose',
-                      height: 137.0,
-                      initValue: diagnoseID==null?null:data.diagnose,
-                      onSaved: (value) {
-                        data.diagnose = value.toString();
-                      },
-                    ),
-                    SizedBox(
-                      height: screenHelper.screenHight(10.0),
-                    ),
-                    TextFieldBlock(
-                      maxLines: 5,
-                      hintText: 'Drugs',
-                      height: 137.0,
-                      initValue: diagnoseID==null?null:data.drugs,
-                      onSaved: (value) {
-                        data.drugs = value.toString();
-                      },
-                    ),
-                    caseID == null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(10.0),
-                    ):
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ),
-                    caseID != null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ):
-                    ChooseBlook(
-                      isDate: true,
-                      dialogTitle: 'Choose Entry Date',
-                      title: 'Entry Date',
-                      initialValue: diagnoseID==null?null:data.date_of_entry,
-                      onSaved: (value) {
-                        data.date_of_entry = value;
-                      },
-                    ),
-                    caseID != null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ):
-                    SizedBox(
-                      height: screenHelper.screenHight(10.0),
-                    ),
-                    caseID != null ?
-                    SizedBox(
-                      height: screenHelper.screenHight(0.0),
-                    ):
-                    ChooseBlook(
-                      isDate: true,
-                      dialogTitle: 'Choose Exit Date',
-                      title: 'Exit Date',
-                      initialValue: diagnoseID==null?null:data.date_of_exit,
-                      onSaved: (value) {
-                        data.date_of_exit = value;
-                      },
-                    ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: this._formKey,
+                  child: ListView(
+                    children: <Widget>[
+                      SizedBox(
+                        height: screenHelper.screenHight(15.0),
+                      ),
+                      patientID != null || caseID != null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ):
+                      ChooseBlook(
+                        isSearch: true,
+                        isPatient: true,
+                        dialogTitle: 'Choose Patient',
+                        title: 'Patient',
+                        initialValue: diagnoseID==null?null:data.doctor_name,
+                        onSaved: (value) {
+                          data.patient_id = value;
+                        },
+                      ),
+                      patientID != null || caseID != null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ):
+                      SizedBox(
+                        height: screenHelper.screenHight(10.0),
+                      ),
+                      ChooseBlook(
+                        isSearch: true,
+                        dialogTitle: 'Choose Doctor',
+                        title: 'Doctor',
+                        initialValue: diagnoseID==null?null:data.doctor_name,
+                        onSaved: (value) {
+                          data.doctor_id = value;
+                        },
+                      ),
+                      SizedBox(
+                        height: screenHelper.screenHight(10.0),
+                      ),
+                      TextFieldBlock(
+                        maxLines: 5,
+                        hintText: 'Diagnose',
+                        height: 137.0,
+                        initValue: diagnoseID==null?null:data.diagnose,
+                        onSaved: (value) {
+                          data.diagnose = value.toString();
+                        },
+                      ),
+                      SizedBox(
+                        height: screenHelper.screenHight(10.0),
+                      ),
+                      TextFieldBlock(
+                        maxLines: 5,
+                        hintText: 'Drugs',
+                        height: 137.0,
+                        initValue: diagnoseID==null?null:data.drugs,
+                        onSaved: (value) {
+                          data.drugs = value.toString();
+                        },
+                      ),
+                      caseID == null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(10.0),
+                      ):
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ),
+                      caseID != null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ):
+                      ChooseBlook(
+                        isDate: true,
+                        dialogTitle: 'Choose Entry Date',
+                        title: 'Entry Date',
+                        initialValue: diagnoseID==null?null:data.date_of_entry,
+                        onSaved: (value) {
+                          data.date_of_entry = value;
+                        },
+                      ),
+                      caseID != null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ):
+                      SizedBox(
+                        height: screenHelper.screenHight(10.0),
+                      ),
+                      caseID != null ?
+                      SizedBox(
+                        height: screenHelper.screenHight(0.0),
+                      ):
+                      ChooseBlook(
+                        isDate: true,
+                        dialogTitle: 'Choose Exit Date',
+                        title: 'Exit Date',
+                        initialValue: diagnoseID==null?null:data.date_of_exit,
+                        onSaved: (value) {
+                          data.date_of_exit = value;
+                        },
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
           ),
         ),
-      ),
+
     );
   }
 }

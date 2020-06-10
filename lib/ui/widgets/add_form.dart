@@ -254,7 +254,6 @@ class AddForm extends StatelessWidget {
                   TextFieldBlock(
 
                     hintText: 'Notes',
-                    height: screenSize.screenHight(37.0),
                     returnValue: null,
                     initValue: personID==null?null:data.notes,
                     onSaved: (value) {

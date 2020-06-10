@@ -6,7 +6,7 @@ class TextFieldBlock extends StatelessWidget {
 
    TextFieldBlock({
     this.hintText,
-    this.height=37.0,
+    this.height=48.0,
     this.returnValue=null,
     this.onSaved,
     this.initValue,

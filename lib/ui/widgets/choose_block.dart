@@ -28,7 +28,7 @@ class ChooseBlook extends StatefulWidget {
     this.isDate=false,
      this.dialogTitle,
      this.onSaved,
-     this.height=37.0,
+     this.height=48.0,
      this.initialValue,
      this.data,
      this.isSearch = false,

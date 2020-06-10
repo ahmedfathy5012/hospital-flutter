@@ -63,8 +63,8 @@ class HomeScreen extends StatelessWidget {
                   builder: (context, countData, ch) => GridView(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      crossAxisSpacing: screenSize.screenWidth(13),
-                      mainAxisSpacing: screenSize.screenWidth(13),
+                      crossAxisSpacing: screenSize.screenWidth(6),
+                      mainAxisSpacing: screenSize.screenWidth(6),
                     ),
                     children: <Widget>[
                       GridItem(
