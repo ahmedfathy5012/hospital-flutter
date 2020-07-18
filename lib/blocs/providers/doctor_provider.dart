@@ -49,7 +49,8 @@ class DoctorProvider extends ApiHelper with ChangeNotifier {
         'social_status': doctor.social_status,
          'date_of_hiring':doctor.date_of_hiring.toString(),
         'date_of_birth' : doctor.date_of_birth.toString(),
-        'user_role_id' :doctor.user.user_role_id.toString(),
+        'user_role_id' :doctor.user_role_id.toString(),
+
 
     };
 
@@ -84,7 +85,7 @@ class DoctorProvider extends ApiHelper with ChangeNotifier {
       'social_status': doctor.social_status.toString(),
       'date_of_hiring': DateTime.now().toString(),
       'date_of_birth' : doctor.date_of_birth.toString(),
-      'user_role_id' :doctor.user.user_role_id.toString(),
+      'user_role_id' :doctor.user_role_id.toString(),
     };
 
 
@@ -94,7 +95,7 @@ class DoctorProvider extends ApiHelper with ChangeNotifier {
     );
     //if(json.decode(response.body).message.contains('users_identification_number_unique'))
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    print('${extractedData}');
+    print('${response.statusCode}');
 
     //final extractedData = json.decode(response.body) as Map<String, dynamic>;
     //_doctor = Doctor.fromJson(extractedData['data']);

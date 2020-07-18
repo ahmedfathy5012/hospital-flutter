@@ -93,6 +93,7 @@ class Doctor{
     this.date_of_hiring=jsonObject['doctor_date_of_hiring'];
     this.specialization_id=jsonObject['specialization_id'];
     this.nationality_id=jsonObject['nationality_id'];
+    this.user_role_id=jsonObject['user_role_id'];
     this.job=Job.fromJson(jsonObject['doctor_job']);
     this.gender=Gender.fromJson(jsonObject['doctor_gender']);
     this.blood=Blood.fromJson(jsonObject['doctor_blood']);

@@ -6,6 +6,8 @@ import 'build_future.dart';
 import 'package:provider/provider.dart';
 import 'package:devida/blocs/providers/util_provider.dart';
 import 'package:devida/helpers/database_helper.dart';
+import '../../blocs/models/doctor.dart';
+
 
 class selectionData{
   final int id;
@@ -16,8 +18,9 @@ class selectionData{
 }
 
 
-class AddForm extends StatelessWidget {
-  DatabaseHelper helper = DatabaseHelper();
+
+
+class AddForm extends StatefulWidget {
   var data;
   int personID;
   GlobalKey<FormState> formKey;
@@ -28,110 +31,203 @@ class AddForm extends StatelessWidget {
 
   AddForm({this.data , this.personID , this.formKey , this.returniIdentification_number , this.isDoctor=false , this.isPatient=false});
 
+  @override
+  _AddFormState createState() => _AddFormState();
+}
+
+class _AddFormState extends State<AddForm> {
+
+
+
+
+  DatabaseHelper helper = DatabaseHelper();
+
+  TextEditingController _firstNameController = TextEditingController();
+
+  TextEditingController _secondNameController = TextEditingController();
+
+  TextEditingController _thirdNameController = TextEditingController();
+
+  TextEditingController _emailController = TextEditingController();
+
+  TextEditingController _phoneController = TextEditingController();
+
+  TextEditingController _identificationController = TextEditingController();
+
+  TextEditingController _addressController = TextEditingController();
+
+  TextEditingController _jobController = TextEditingController();
+
+  TextEditingController _noteController = TextEditingController();
+
   List SocialStatus = [
     selectionData(id:1,title:'Married'),
     selectionData(id:2,title:'Celibate'),
   ];
 
+
+  @override
+  void initState() {
+    super.initState();
+
+    _firstNameController.addListener(_saveFirstName);
+    _secondNameController.addListener(_saveSecondName);
+    _thirdNameController.addListener(_saveThirdName);
+    _emailController.addListener(_saveEmail);
+    _phoneController.addListener(_savePhone);
+    _identificationController.addListener(_saveIdentification);
+    _addressController.addListener(_saveAddress);
+    _jobController.addListener(_saveJob);
+    _noteController.addListener(_saveNote);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    _firstNameController.dispose();
+    _secondNameController.dispose();
+    _thirdNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _identificationController.dispose();
+    _addressController.dispose();
+    _jobController.dispose();
+    _noteController.dispose();
+
+    super.dispose();
+  }
+
+  _saveFirstName() {
+   widget.data.first_name=_firstNameController.text.toString();
+  }
+
+  _saveSecondName() {
+    widget.data.second_name=_secondNameController.text.toString();
+  }
+
+  _saveThirdName() {
+    widget.data.third_name=_thirdNameController.text.toString();
+  }
+
+  _saveEmail() {
+    widget.data.email=_emailController.text.toString();
+  }
+
+  _savePhone() {
+    widget.data.phone=_phoneController.text.toString();
+  }
+
+  _saveIdentification() {
+    widget.data.identification_number=_identificationController.text.toString();
+  }
+
+  _saveAddress() {
+    widget.data.address=_addressController.text.toString();
+  }
+
+  _saveNote() {
+    widget.data.notes=_noteController.text.toString();
+  }
+
+  _saveJob() {
+    widget.data.job=_jobController.text.toString();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ScreenHelper screenSize = ScreenHelper(context);
-    return SingleChildScrollView(
-      child: Center(
+    return Center(
         child: Container(
             width: screenSize.screenWidth(310),
             height: screenSize.screenHight(560),
             color: Colors.transparent,
             child: Form(
-              key: this.formKey,
+              key: this.widget.formKey,
               child: ListView(
                 children: <Widget>[
                   SizedBox(
                     height: screenSize.screenHight(15.0),
                   ),
                   TextFieldBlock(
+                    controller: _firstNameController,
                     hintText: 'First Name',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter First Name',
-                    initValue: personID==null?null:data.first_name,
+                    initValue: widget.personID==null?null:widget.data.first_name,
                     onSaved: (value) {
-                      data.first_name = value.toString();
+                      //widget.data.first_name = value.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+                    controller: _secondNameController,
                     hintText: 'Second Name',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Second Name',
-                    initValue: personID==null?null:data.second_name,
+                    initValue: widget.personID==null?null:widget.data.second_name,
                     onSaved: (value) {
-                      data.second_name = value.toString();
+                      //widget.data.second_name = value.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+                    controller:_thirdNameController ,
                     hintText: 'Third Name',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Third Name',
-                    initValue: personID==null?null:data.third_name,
+                    initValue: widget.personID==null?null:widget.data.third_name,
                     onSaved: (value) {
-                      data.third_name = value.toString();
+                      //widget.data.third_name = value.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+                    controller: _emailController,
                     hintText: 'Email Name',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Email',
-                    initValue: personID==null?null:data.email,
+                    initValue: widget.personID==null?null:widget.data.email,
                     onSaved: (value) {
-                      data.email = value.toString();
+                      //widget.data.email = value.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+                    controller: _phoneController,
                     hintText: 'Phone Number',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Phone Number',
-                    initValue: personID==null?null:data.phone,
+                    initValue: widget.personID==null?null:widget.data.phone,
                     onSaved: (value) {
-                      data.phone = value.toString();
+                      //widget.data.phone = _phoneController.text.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
                   TextFieldBlock(
+                    controller: _identificationController,
                     hintText: 'Identification Number',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Identification Number',
-                    initValue: personID==null?null:data.user.identidication_number,
+                    initValue: widget.personID==null?null:widget.data.user.identidication_number,
                     onSaved: (value) {
-                      data.identification_number = value.toString();
+                      //widget.data.identification_number = value.toString();
                       //returniIdentification_number(value.toString());
                     },
-                    readOnly: personID==null?false:true,
+                    readOnly: widget.personID==null?false:true,
                   ),
-                  SizedBox(
-                    height: screenSize.screenHight(10.0),
-                  ),
-                  TextFieldBlock(
-                    hintText: 'Address',
-                    //height: screenSize.screenHight(37.0),
-                    returnValue: 'Please Enter Address',
-                    initValue: personID==null?null:data.address,
-                    onSaved: (value) {
-                      data.address = value.toString();
-                    },
-                  ),
+
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
@@ -139,53 +235,42 @@ class AddForm extends StatelessWidget {
                     dialogTitle: 'Choose Social Status',
                     title: 'Social Status',
                     utilName: 'social',
-                    initialValue: personID==null?null:data.social_status,
+                    initialValue: widget.personID==null?null:widget.data.social_status,
                     onSaved: (value) {
-                      data.social_status = SocialStatus[value-1].title;
+                      widget.data.social_status = SocialStatus[value-1].title;
                     },
                   ),
-                  SizedBox(
-                    height: screenSize.screenHight(10.0),
-                  ),
-                  ChooseBlook(
-                    dialogTitle: 'Choose Nationality',
-                    title: 'Nationality',
-                    utilName: 'nationality',
-                    helper: helper,
-                    initialValue: personID==null?null:data.nationality.title,
-                    onSaved: (value) {
-                      data.id = value;
-                    },
-                  ),
-                  isDoctor?
+
+                  widget.isDoctor?
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   )
                       :
                   SizedBox(height: 0.0,)
                   ,
-                  isDoctor ?
+                  widget.isDoctor ?
                   ChooseBlook(
                     dialogTitle: 'Choose Specialization',
                     title: 'Specialization',
                     utilName: 'specialization',
                     helper: helper,
-                    initialValue: personID==null?null:data.specialization.title,
+                    initialValue: widget.personID==null?null:widget.data.specialization.title,
                     onSaved: (value) {
-                      data.specialization_id = value;
+                      widget.data.specialization_id = value;
                     },):SizedBox(height: 0.0,),
 
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  isPatient?
+                  widget.isPatient?
                   TextFieldBlock(
+                    controller: _jobController,
                     hintText: 'Job',
                     //height: screenSize.screenHight(37.0),
                     returnValue: 'Please Enter Job title',
-                    initValue: personID==null?null:data.job,
+                    initValue: widget.personID==null?null:widget.data.job,
                     onSaved: (value) {
-                      data.job = value.toString();
+                     // widget.data.job = value.toString();
                     },
                   )
 //                  ChooseBlook(
@@ -203,9 +288,9 @@ class AddForm extends StatelessWidget {
                     title: 'Job Title',
                     utilName: 'job',
                     helper: helper,
-                    initialValue: personID==null?null:data.job.title,
+                    initialValue: widget.personID==null?null:widget.data.job.title,
                     onSaved: (value) {
-                      data.job_id = value;
+                      widget.data.job_id = value;
                     },),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
@@ -215,9 +300,9 @@ class AddForm extends StatelessWidget {
                     title: 'Gender',
                     utilName: 'gender',
                     helper: helper,
-                    initialValue: personID==null?null:data.gender.title,
+                    initialValue: widget.personID==null?null:widget.data.gender.title,
                     onSaved: (value) {
-                      data.gender_id = value;
+                      widget.data.gender_id = value;
                     },
 
                   ),
@@ -230,11 +315,39 @@ class AddForm extends StatelessWidget {
                         title: 'Blood',
                         utilName: 'blood',
                         helper: helper,
-                        initialValue:personID==null?null: data.blood.title,
+                        initialValue:widget.personID==null?null: widget.data.blood.title,
                         onSaved: (value) {
-                          data.blood_id = value;
+                          widget.data.blood_id = value;
                         },),
+                  SizedBox(
+                    height: screenSize.screenHight(10.0),
+                  ),
 
+
+                  ChooseBlook(
+                    dialogTitle: 'Choose Nationality',
+                    title: 'Nationality',
+                    utilName: 'nationality',
+                    helper: helper,
+                    initialValue: widget.personID==null?null:widget.data.nationality.title,
+                    onSaved: (value) {
+                      widget.data.nationality_id = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: screenSize.screenHight(10.0),
+                  ),
+                  ChooseBlook(
+                    dialogTitle: 'Choose Role ',
+                    title: 'Role',
+                    utilName: 'role',
+                    helper: helper,
+                    initialValue: widget.personID==null?null:widget.data.user.user_role.toString(),
+                    onSaved: (value) {
+                      widget.data.user_role_id = value;
+                      // print(data.user.user_role_id.toString());
+                    },
+                  ),
 
 
                   SizedBox(
@@ -244,36 +357,37 @@ class AddForm extends StatelessWidget {
                     dialogTitle: 'Choose Date Of Birth',
                     isDate: true,
                     title: 'Date Of Birth',
-                    initialValue:personID==null?null: data.date_of_birth.toString(),
+                    initialValue:widget.personID==null?null: widget.data.date_of_birth.toString(),
                     onSaved: (value) {
-                      data.date_of_birth = value;
+                      widget.data.date_of_birth = value;
                     },),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-                  TextFieldBlock(
 
-                    hintText: 'Notes',
-                    returnValue: null,
-                    initValue: personID==null?null:data.notes,
+                  TextFieldBlock(
+                    controller: _addressController,
+                    hintText: 'Address',
+                    //height: screenSize.screenHight(37.0),
+                    returnValue: 'Please Enter Address',
+                    initValue: widget.personID==null?null:widget.data.address,
                     onSaved: (value) {
-                      data.notes = value.toString();
+                      widget.data.address = value.toString();
                     },
                   ),
                   SizedBox(
                     height: screenSize.screenHight(10.0),
                   ),
-
-                  ChooseBlook(
-                    dialogTitle: 'Choose Role ',
-                    title: 'Role',
-                    utilName: 'role',
-                    helper: helper,
-                    initialValue: personID==null?null:data.user.user_role.toString(),
+                  TextFieldBlock(
+                    controller: _noteController,
+                    hintText: 'Notes',
+                    returnValue: null,
+                    initValue: widget.personID==null?null:widget.data.notes,
                     onSaved: (value) {
-                      data.user.user_role_id = value;
+                      widget.data.notes = value.toString();
                     },
-                  )
+                  ),
+
 //                  TextFieldBlock(
 //                    hintText: 'Image',
 //                    height: screenSize.screenHight(37.0),
@@ -286,7 +400,7 @@ class AddForm extends StatelessWidget {
                 ],
               ),
             )),
-      ),
-    );
+      )
+    ;
   }
 }

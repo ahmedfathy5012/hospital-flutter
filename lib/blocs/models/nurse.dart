@@ -81,6 +81,7 @@ class Nurse{
     this.notes =         jsonObject['nurse_notes']            == null ? ' ' : jsonObject['nurse_notes'];
     this.image =         jsonObject['nurse_image']            == null ? ' ' : jsonObject['nurse_image'];
     this.full_name =     jsonObject['nurse_full_name']        == null ? ' ' : jsonObject['nurse_full_name'];
+    this.user_role_id =    jsonObject['user_role_id'];
     this.job_id=         jsonObject['job_id']                 == null ? ' ' : jsonObject['job_id'];
     this.gender_id =     jsonObject['gender_id']              == null ? ' ' : jsonObject['gender_id'];
     this.blood_id=       jsonObject['blood_id']               == null ? ' ' : jsonObject['blood_id'];

@@ -49,7 +49,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
       'social_status': employee.social_status,
       'date_of_hiring':employee.date_of_hiring.toString(),
       'date_of_birth' : employee.date_of_birth.toString(),
-      'user_role_id' :employee.user.user_role_id.toString()
+      'user_role_id' :employee.user_role_id.toString()
     };
 
 
@@ -84,7 +84,7 @@ class EmployeeProvider extends ApiHelper with ChangeNotifier {
     'social_status': employee.social_status.toString(),
     'date_of_hiring': DateTime.now().toString(),
     'date_of_birth' : employee.date_of_birth.toString(),
-    'user_role_id' :employee.user.user_role_id.toString()
+    'user_role_id' :employee.user_role_id.toString()
     };
 
 

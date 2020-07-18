@@ -26,7 +26,7 @@ import '../blocs/providers/auth_provider.dart';
 
 import '../blocs/models/user.dart';
 
-
+import '../blocs/models/doctor.dart';
 
 class SubmitUtils {
   BuildContext context;
@@ -35,7 +35,7 @@ class SubmitUtils {
   Future<void> doctorSubmit(
       {GlobalKey<FormState> formKey,
         int doctorID = null,
-        var data,
+        Doctor data,
         bool isDrawer=false
       }) async {
     print('tested data is ${data.blood_id}');
@@ -44,17 +44,43 @@ class SubmitUtils {
       formKey.currentState.save(); // Save our form now.
       screenHelper.showProgressDialog();
       if (doctorID == null) {
+
+//            print('first name ${data.first_name}');
+//            print('second_name name ${data.second_name}');
+//            print('third_name name ${data.third_name}');
+//            print('email name ${data.email}');
+//            print('phone name ${data.phone}');
+//            print('identification_number name ${data.identification_number}');
+//            print('address name ${data.address}');
+//            print('job_id name ${data.job_id}');
+//            print('specialization_id name ${data.specialization_id}');
+//            print('gender_id name ${data.gender_id}');
+//            print('blood_id name ${data.blood_id}');
+//            print('user_role_id name ${data.user_role_id}');
+//            print('first date_of_birth ${data.date_of_birth}');
+//            print('first nationality_id ${data.nationality_id}');
+//            print('status name ${data.social_status}');
+
+
+
         try {
           var respCode =
           await Provider.of<DoctorProvider>(context, listen: false)
               .addDoctor(doctorID, data);
           if (respCode.statusCode == 201) {
+            print('sissssss');
             //Scaffold.of(_scaffoldKey.currentContext).showSnackBar(SnackBar(content: Text('Ok')));
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: DoctorsScreen.routName);
-            else
+            if(isDrawer){
+              //screenHelper.navigateReplacementNamed(routName: DoctorsScreen.routName,arguments: null);
+              await Navigator.of(context).pushReplacementNamed(
+                  DoctorsScreen.routName,
+                 );
+            }
+            else {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
+            }
+            Navigator.of(context).pop();
           } else {
             if (json
                 .decode(respCode.body)['message']
@@ -104,8 +130,13 @@ class SubmitUtils {
               .addEmployee(employeeID, data);
           if (respCode.statusCode == 201) {
             //Scaffold.of(_scaffoldKey.currentContext).showSnackBar(SnackBar(content: Text('Ok')));
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: EmployeesScreen.routName);
+            if(isDrawer){
+              await Navigator.of(context).pushReplacementNamed(
+                EmployeesScreen.routName,
+              );
+//              screenHelper.navigateReplacementNamed(routName: EmployeesScreen.routName);
+            }
+
             else
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -155,8 +186,13 @@ class SubmitUtils {
               .addNurse(nurseID, data, identification_number);
           if (respCode.statusCode == 201) {
             //Scaffold.of(_scaffoldKey.currentContext).showSnackBar(SnackBar(content: Text('Ok')));
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: NursesScreen.routName);
+            if(isDrawer){
+              await Navigator.of(context).pushReplacementNamed(
+                NursesScreen.routName,
+              );
+//              screenHelper.navigateReplacementNamed(routName: NursesScreen.routName);
+            }
+
             else
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -207,8 +243,13 @@ class SubmitUtils {
               .addPatient(patientID, data, identification_number);
           if (respCode.statusCode == 201) {
             //Scaffold.of(_scaffoldKey.currentContext).showSnackBar(SnackBar(content: Text('Ok')));
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: PatientsScreen.routName);
+            if(isDrawer){
+              await Navigator.of(context).pushReplacementNamed(
+                NursesScreen.routName,
+              );
+//              screenHelper.navigateReplacementNamed(routName: PatientsScreen.routName);
+            }
+
             else
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -284,8 +325,13 @@ class SubmitUtils {
           await Provider.of<DiagnoseProvider>(context, listen: false)
               .addDiagnose(id: diagnoseID , diagnose: data , isAddCase: isAddCase);
           if (respCode.statusCode == 201) {
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: DiagnosesScreen.routName);
+            if(isDrawer){
+              await Navigator.of(context).pushReplacementNamed(
+                DiagnosesScreen.routName,
+              );
+              //screenHelper.navigateReplacementNamed(routName: DiagnosesScreen.routName);
+            }
+
             else
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -328,8 +374,13 @@ class SubmitUtils {
               .addSurgery(surgeryID, data);
           if (respCode.statusCode == 201) {
             //Scaffold.of(_scaffoldKey.currentContext).showSnackBar(SnackBar(content: Text('Ok')));
-            if(isDrawer)
-              screenHelper.navigateReplacementNamed(routName: PatientsScreen.routName);
+            if(isDrawer){
+              await Navigator.of(context).pushReplacementNamed(
+                PatientsScreen.routName,
+              );
+//              screenHelper.navigateReplacementNamed(routName: PatientsScreen.routName);
+            }
+
             else
               Navigator.of(context).pop();
               Navigator.of(context).pop();

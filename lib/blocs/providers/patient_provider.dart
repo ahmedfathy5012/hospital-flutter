@@ -69,7 +69,7 @@ class PatientProvider extends ApiHelper with ChangeNotifier {
       'social_status': patient.social_status,
       'date_of_file':patient.date_of_file.toString(),
       'date_of_birth' : patient.date_of_birth.toString(),
-      'user_role_id' :patient.user.user_role_id.toString(),
+      'user_role_id' :patient.user_role_id.toString(),
     };
 
     final response = await http.post(UPDATE_PATIENT_URL(id),headers:await getHeaders(),
@@ -103,7 +103,7 @@ class PatientProvider extends ApiHelper with ChangeNotifier {
     'social_status': patient.social_status.toString(),
     'date_of_file': DateTime.now().toString(),
     'date_of_birth' : patient.date_of_birth.toString(),
-    'user_role_id' :patient.user.user_role_id.toString(),
+    'user_role_id' :patient.user_role_id.toString(),
     };
 
     final response = await http.post(ADD_PATIENT_URL,headers:await getHeaders(),

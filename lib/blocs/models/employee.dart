@@ -73,6 +73,7 @@ class Employee{
     this.notes =         jsonObject['employee_notes'];
     this.image =         jsonObject['employee_image'];
     this.full_name =     jsonObject['employee_full_name'];
+    this.user_role_id =    jsonObject['user_role_id'];
     this.job_id=         jsonObject['job_id'];
     this.gender_id =     jsonObject['gender_id'];
     this.blood_id=       jsonObject['blood_id'];

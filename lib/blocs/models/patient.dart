@@ -84,6 +84,7 @@ class Patient{
     this.gender_id = jsonObject['gender_id'];
     this.blood_id=jsonObject['blood_id'];
     this.user_id=jsonObject['user_id'];
+    this.user_role_id =    jsonObject['user_role_id'];
     this.date_of_birth=jsonObject['patient_date_of_birth'];
     this.date_of_file=jsonObject['patient_date_of_file'];
     this.nationality_id=jsonObject['nationality_id'];

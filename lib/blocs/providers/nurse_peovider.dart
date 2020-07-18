@@ -49,7 +49,7 @@ class NurseProvider extends ApiHelper with ChangeNotifier {
       'social_status': nurse.social_status,
       'date_of_hiring':nurse.date_of_hiring.toString(),
       'date_of_birth' : nurse.date_of_birth.toString(),
-      'user_role_id' :nurse.user.user_role_id.toString()
+      'user_role_id' :nurse.user_role_id.toString()
     };
 
     final response = await http.post(UPDATE_NURSE_URL(id),headers:await getHeaders(),
@@ -83,7 +83,7 @@ class NurseProvider extends ApiHelper with ChangeNotifier {
     'social_status': nurse.social_status.toString(),
     'date_of_hiring': DateTime.now().toString(),
     'date_of_birth' : nurse.date_of_birth.toString(),
-    'user_role_id' :nurse.user.user_role_id.toString()
+    'user_role_id' :nurse.user_role_id.toString()
     };
 
     final response = await http.post(ADD_NURSE_URL,headers:await getHeaders(),

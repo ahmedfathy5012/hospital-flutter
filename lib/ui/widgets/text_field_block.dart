@@ -11,8 +11,9 @@ class TextFieldBlock extends StatelessWidget {
     this.onSaved,
     this.initValue,
     this.readOnly=false,
-     this.maxLines = 1,
-     this.isSecure=false
+    this.maxLines = 1,
+    this.isSecure=false,
+    this.controller=null,
   });
 
    String hintText;
@@ -23,6 +24,8 @@ class TextFieldBlock extends StatelessWidget {
    bool readOnly;
    int maxLines;
    bool isSecure;
+   TextEditingController controller;
+
 
 
   @override
@@ -48,6 +51,7 @@ class TextFieldBlock extends StatelessWidget {
           padding:  EdgeInsets.only(left: 15.0),
           child:
           TextFormField(
+            controller: controller,
             maxLines: maxLines,
             readOnly: readOnly?true:false,
               style: TextStyle(
