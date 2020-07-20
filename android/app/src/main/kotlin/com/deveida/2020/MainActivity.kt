@@ -1,4 +1,4 @@
-package com.example.devida
+package com.deveida.2020
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
