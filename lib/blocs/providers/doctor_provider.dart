@@ -34,32 +34,32 @@ class DoctorProvider extends ApiHelper with ChangeNotifier {
   Future<Doctor> updateDoctor(int id , Doctor doctor) async {
     Map<String,dynamic> body = {
       'first_name' : doctor.first_name,
-        'second_name': doctor.second_name,
+      'second_name': doctor.second_name,
       'third_name' : doctor.third_name,
       'specialization_id' : doctor.specialization_id.toString(),
       'nationality_id' : doctor.nationality_id.toString(),
       'job_id' : doctor.job_id.toString(),
       'sex_id' : doctor.gender_id.toString(),
       'blood_id' : doctor.blood_id.toString(),
-        'notes' : doctor.notes== null ? ' ' : doctor.notes,
-        'image' : doctor.image == null ? ' ' : doctor.image,
-         'address' : doctor.address,
-         'phone' : doctor.phone,
-         'email' : doctor.email,
-        'social_status': doctor.social_status,
-         'date_of_hiring':doctor.date_of_hiring.toString(),
-        'date_of_birth' : doctor.date_of_birth.toString(),
-        'user_role_id' :doctor.user_role_id.toString(),
-
-
+      'notes' : doctor.notes== null ? ' ' : doctor.notes,
+      'image' : doctor.image == null ? ' ' : doctor.image,
+      'address' : doctor.address,
+      'phone' : doctor.phone,
+      'email' : doctor.email,
+      'social_status': doctor.social_status,
+      'date_of_hiring':doctor.date_of_hiring.toString(),
+      'date_of_birth' : doctor.date_of_birth.toString(),
+      'user_role_id' :doctor.user_role_id.toString(),
     };
-
+    print('befor response');
     final response = await http.post(UPDATE_DOCTOR_URL(id),headers:await getHeaders(),
      body:  body
     );
-
+    print('esponse code is ${response.body}');
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    print('after extract');
     _doctor = Doctor.fromJson(extractedData['data']);
+    print('after load doctor');
     print(_doctor.blood.id);
     notifyListeners();
   }

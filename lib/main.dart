@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
       ],
         child : MaterialApp(
             debugShowCheckedModeBanner: false,
+            title : "devida",
             home: InitPage(),
             routes: {
               DoctorScreen.routName : (context)=>DoctorScreen(),

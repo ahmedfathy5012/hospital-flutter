@@ -70,7 +70,7 @@ class TextFieldBlock extends StatelessWidget {
                   
               ),
               obscureText: isSecure,
-              initialValue: initValue == '' ? null : initValue ,
+              //initialValue: initValue == '' ? null : initValue ,
               validator: (value){
                 if(value.isEmpty){
                   return returnValue;

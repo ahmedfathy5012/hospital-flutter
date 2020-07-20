@@ -30,7 +30,7 @@ class _DiagnoseFormScreenState extends State<DiagnoseFormScreen> {
     ScreenHelper screenHelper = ScreenHelper(context);
     SubmitUtils submitUtils = SubmitUtils(context);
     final ScreenArguments args = ModalRoute.of(context).settings.arguments ;
-    final diagnoseID = args.diagnose_id as int ;
+    final diagnoseID = args.diagnose_id as int;
     final caseID = args.patient_case_id as int;
     final patientID = args.patient_id as int;
     @override
@@ -60,7 +60,7 @@ class _DiagnoseFormScreenState extends State<DiagnoseFormScreen> {
             isBack: true,
             title: 'Add Diagnose',
             isForm: true,
-            onSave: submit,
+            onSave: (){},
             onBack: () {
               if(args.isDrawer)
                 screenHelper.navigateReplacementNamed(routName: DiagnosesScreen.routName);
@@ -90,7 +90,8 @@ class _DiagnoseFormScreenState extends State<DiagnoseFormScreen> {
                         isPatient: true,
                         dialogTitle: 'Choose Patient',
                         title: 'Patient',
-                        initialValue: diagnoseID==null?null:data.doctor_name,
+                        //initialValue: diagnoseID==null?null:data.doctor_name,
+                        initialValue: 'dsa',
                         onSaved: (value) {
                           data.patient_id = value;
                         },

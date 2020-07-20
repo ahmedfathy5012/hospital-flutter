@@ -6,7 +6,7 @@ import 'build_future.dart';
 import 'package:provider/provider.dart';
 import 'package:devida/blocs/providers/util_provider.dart';
 import 'package:devida/helpers/database_helper.dart';
-import '../../blocs/models/doctor.dart';
+
 
 
 class selectionData{
@@ -75,10 +75,34 @@ class _AddFormState extends State<AddForm> {
     _thirdNameController.addListener(_saveThirdName);
     _emailController.addListener(_saveEmail);
     _phoneController.addListener(_savePhone);
+    if(widget.personID==null)
     _identificationController.addListener(_saveIdentification);
     _addressController.addListener(_saveAddress);
     _jobController.addListener(_saveJob);
     _noteController.addListener(_saveNote);
+
+
+
+
+    if(widget.personID!=null){
+
+
+      widget.data.user_role_id = widget.data.user.user_role_id;
+
+      _firstNameController.text=widget.data.first_name;
+      _secondNameController.text=widget.data.second_name;
+      _thirdNameController.text=widget.data.third_name;
+      _emailController.text=widget.data.email;
+      _phoneController.text=widget.data.phone;
+      _identificationController.text=widget.data.user.identidication_number;
+      _addressController.text=widget.data.address;
+      _noteController.text=widget.data.notes;
+      if(widget.isPatient)
+        _jobController.text=widget.data.job;
+    }
+
+
+
   }
 
   @override
